@@ -4,7 +4,7 @@ import org.fleen.geom_Kisrhombille.KGrid;
 
 /*
  * NODE GRID ROOT
- * Grid node on PGFTree where the grid is defined by local params
+ * Grid node on Tree where the grid is defined by local params
  * A simple wrapper for a KGrid
  */
 public class MGridRoot extends MGrid{
@@ -38,8 +38,5 @@ public class MGridRoot extends MGrid{
   //geometry cache (the local kgrid) gets created at construction and is immutable
   //so this never gets used
   protected KGrid initLocalKGrid(){return null;}
-  
-  //geometry cache for grid root never gets flushed
-  protected void flushLocalGeometryCache(){}
   
 }

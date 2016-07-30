@@ -1,22 +1,16 @@
 package org.fleen.maximilian.composition;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.fleen.geom_2D.DCircle;
 import org.fleen.geom_2D.DPoint;
 import org.fleen.geom_2D.DPolygon;
-import org.fleen.geom_2D.GD;
-import org.fleen.geom_2D.IncircleCalculator;
 import org.fleen.geom_Kisrhombille.GK;
 import org.fleen.geom_Kisrhombille.KAnchor;
 import org.fleen.geom_Kisrhombille.KGrid;
 import org.fleen.geom_Kisrhombille.KPolygon;
 import org.fleen.geom_Kisrhombille.KVertex;
 import org.fleen.maximilian.grammar.MMetagon;
-import org.fleen.util.tag.TagManager;
-import org.fleen.util.tag.Tagged;
-import org.fleen.util.tree.TreeNode;
 
 /*
  * A polygon defined by an underlying grid, a metagon, an anchor and a chorus index
@@ -26,7 +20,7 @@ import org.fleen.util.tree.TreeNode;
  * chorus index is for local child grouping 
  * real 2d points are derived from the compounded local grid-geometry, which is derived from this node's ancestry
  */
-public class MPolygon extends MTreeNode implements Tagged{
+public class MPolygon extends MShape{
   
   private static final long serialVersionUID=7403675520824450721L;
   
@@ -36,62 +30,48 @@ public class MPolygon extends MTreeNode implements Tagged{
    * ################################
    */
   
-  public MPolygon(MMetagon metagon,KAnchor anchor,int chorusindex,String[] tags){
+  public MPolygon(MMetagon metagon,KAnchor anchor,int chorusindex,List<String> tags){
+    super(chorusindex);
     this.metagon=metagon;
     this.anchor=anchor;
-    this.chorusindex=chorusindex;
-    
-    //get tags from metagon and jig section
-    initTags(metagon.getTags());
-    tagmanager.addTags(tags);
-    
+    //add tags from metagon
+    addTags(Arrays.asList(metagon.getTags()));
+    //add param tags (from jig section or whatever)
+    addTags(tags);
+    //
     initVertices();}
   
   /*
    * returns a default form for use in the Quasar editing tool or whatever
    */
   public MPolygon(MMetagon metagon){
+    super(0);
     this.metagon=metagon;
     KPolygon p=metagon.getPolygon();
     anchor=new KAnchor(p.get(0),p.get(1),true);
-    chorusindex=0;
     initVertices();}
   
   /*
    * for test
    */
   public MPolygon(MMetagon metagon,KAnchor anchor){
+    super(0);
     this.metagon=metagon;
     this.anchor=anchor;
-    chorusindex=0;
     initVertices();}
   
   /*
    * ################################
-   * TREE STRUCTURE STUFF
+   * TREE STUFF
    * ################################
    */
   
   /*
+   * the first node in the tree is always a root grid and it has one child, a polygon
    * if this polygon's parent is the root grid then this is the root polygon and its depth is 1
    */
   public boolean isRootPolygon(){
-    return getDepth()==1;}
-  
-  public MPolygon getPolygonParent(){
-    if(isRootPolygon())return null;
-    return (MPolygon)getAncestor(2);}
-  
-  public List<MPolygon> getPolygonChildren(){
-    //if this polygon is a leaf then we have no polygon children
-    if(isLeaf())return new ArrayList<MPolygon>(0);
-    //refer to this polygons's grid child, refer to that grid's children
-    List<? extends TreeNode> children=getChild().getChildren();
-    //gather those old nodes into a list
-    List<MPolygon> polygons=new ArrayList<MPolygon>(children.size());
-    for(TreeNode n:children)
-      polygons.add((MPolygon)n);
-    return polygons;}
+    return getParent().isRoot();}
   
   /*
    * ################################
@@ -178,30 +158,9 @@ public class MPolygon extends MTreeNode implements Tagged{
     if(fag!=null){
       grid=fag.getLocalKGrid();
     }else{
-      grid=new KGrid();}
+      grid=new KGrid();}//for tests. a polygon in the tree will always have a parent grid 
     //
     for(int i=0;i<s;i++)
       dpolygon.add(new DPoint(grid.getPoint2D(v[i])));}
-  
-  /*
-   * ++++++++++++++++++++++++++++++++
-   * DETAIL SIZE
-   * The diameter of the incircle
-   * TODO this chould be in DPolygon
-   * ++++++++++++++++++++++++++++++++
-   */
-  
-  private Double detailsize=null;
-  
-  public double getDetailSize(){
-    if(detailsize==null)
-      detailsize=IncircleCalculator.getIncircle(getDPolygon()).r*2;
-    return detailsize;}
-  
-
-  
-
-  
-
 
 }

@@ -121,12 +121,12 @@ public abstract class MTreeNode implements TreeNode,Serializable,Maximilian{
   /*
    * returns the first ancestor of this node that is an MGeometry class object
    */
-  public MGeometry getFirstAncestorGeometry(){
+  public MShape getFirstAncestorGeometry(){
     TreeNode n=treenodeservices.getParent();
-    while(!(n instanceof MGeometry)){
+    while(!(n instanceof MShape)){
       if(n==null)return null;
       n=n.getParent();}
-    return (MGeometry)n;}
+    return (MShape)n;}
   
   /**
    * @return Leaves of the branch rooted at this node

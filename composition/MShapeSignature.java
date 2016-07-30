@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * We consider the geometry's chorus index, the chorus index of 
  * the geometry's first ancestral geometry component and so on, all the way to the root.
  */
-public class MGeometrySignature extends ArrayList<Integer>{
+public class MShapeSignature extends ArrayList<Integer>{
   
   private static final long serialVersionUID=2037581696842008653L;
 
@@ -18,14 +18,14 @@ public class MGeometrySignature extends ArrayList<Integer>{
    * ################################
    */
   
-  public MGeometrySignature(MGeometry p){
-    MGeometry node=p;
+  public MShapeSignature(MShape p){
+    MShape node=p;
     while(node!=null){
       add(node.getChorusIndex());
       node=node.getFirstAncestorGeometry();}}
   
   //empty sig
-  public MGeometrySignature(){}
+  public MShapeSignature(){}
   
   /*
    * ################################
@@ -47,7 +47,7 @@ public class MGeometrySignature extends ArrayList<Integer>{
       hashcode+=a;}
   
   public boolean equals(Object a){
-    MGeometrySignature s0=(MGeometrySignature)a;
+    MShapeSignature s0=(MShapeSignature)a;
     if(s0.hashCode()!=hashCode())return false;
     int 
       c0=s0.size(),

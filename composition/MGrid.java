@@ -3,7 +3,7 @@ package org.fleen.maximilian.composition;
 import org.fleen.geom_Kisrhombille.KGrid;
 
 /*
- * forsythia grid node
+ * maximilian grid node
  * comes in 2 flavors : root and transform
  */
 public abstract class MGrid extends MTreeNode{

@@ -51,9 +51,6 @@ public class MGridTransform extends MGrid{
    * ################################
    */
   
-  protected void flushLocalGeometryCache(){
-    localkgrid=null;}
-  
   protected KGrid initLocalKGrid(){
     KGrid priorgrid=getFirstAncestorGrid().getLocalKGrid();
     //
