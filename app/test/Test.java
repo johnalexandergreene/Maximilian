@@ -15,6 +15,9 @@ import org.fleen.forsythia.grammar.ForsythiaGrammar;
 import org.fleen.maximilian.composition.MComposition;
 import org.fleen.maximilian.grammar.MGrammar;
 
+/*
+ * test for maximilian
+ */
 public class Test{
   
   /*

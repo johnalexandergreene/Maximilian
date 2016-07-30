@@ -85,7 +85,7 @@ public abstract class MTreeNode implements TreeNode,Serializable,Maximilian{
   
   /*
    * ++++++++++++++++++++++++++++++++
-   * FORSYTHIA SPECIFIC TREE STUFF
+   * MAXIMILIAN SPECIFIC TREE STUFF
    */
   
   /**
@@ -95,7 +95,7 @@ public abstract class MTreeNode implements TreeNode,Serializable,Maximilian{
     int c=0;
     MTreeNode n=this;
     while(n!=null){
-      n=n.getFirstAncestorPolygon();
+      n=n.getFirstAncestorGeometry();
       if(n!=null)c++;}
     return c;}
   
@@ -118,12 +118,15 @@ public abstract class MTreeNode implements TreeNode,Serializable,Maximilian{
       n=n.getParent();}
     return (MGrid)n;}
   
-  public MPolygon getFirstAncestorPolygon(){
+  /*
+   * returns the first ancestor of this node that is an MGeometry class object
+   */
+  public MGeometry getFirstAncestorGeometry(){
     TreeNode n=treenodeservices.getParent();
-    while(!(n instanceof MPolygon)){
+    while(!(n instanceof MGeometry)){
       if(n==null)return null;
       n=n.getParent();}
-    return (MPolygon)n;}
+    return (MGeometry)n;}
   
   /**
    * @return Leaves of the branch rooted at this node
@@ -148,20 +151,5 @@ public abstract class MTreeNode implements TreeNode,Serializable,Maximilian{
   
   public Object gpobject;
   
-//  /*
-//   * ################################
-//   * GEOMETRY CACHE FLUSH
-//   * We cache much geometry data. 
-//   * If the root grid node changes then everything dependent upon it changes too
-//   * flush and (lazily) recalculate  
-//   * ################################
-//   */
-//  
-//  public void flush(){
-//    flushLocalGeometryCache();
-//    for(TreeNode n:treenodeservices.getChildren())
-//      ((ForsythiaTreeNode)n).flush();}
-//  
-//  protected abstract void flushLocalGeometryCache();
   
 }

@@ -19,14 +19,12 @@ import org.fleen.util.tag.Tagged;
 import org.fleen.util.tree.TreeNode;
 
 /*
- * NODE POLYGON
- * A polygon specified by a metagon, 2 vertices, a twist and a chorus index
- * the polygonmodel specifies relative vertex locations
- * the vertices specify the first 2 vertices in the polygon, scale and orientation
- * twist specifies polygon path orientation clockwise/counterclockwise
- * chorus index is for local child grouping
- * from this we derive a loop of vertices which specify a polygon 
- * real 2d points are derived from the compounded local grid, which is the first grid node in this polygon's ancestry
+ * A polygon defined by an underlying grid, a metagon, an anchor and a chorus index
+ * the grid is this polygon's parent
+ * the anchor gives us the first 2 vertices in the polygon, scale and orientation
+ * the polygon points chirality (clockwise or counterclockwise) gives us twist 
+ * chorus index is for local child grouping 
+ * real 2d points are derived from the compounded local grid-geometry, which is derived from this node's ancestry
  */
 public class MPolygon extends MTreeNode implements Tagged{
   
@@ -89,7 +87,7 @@ public class MPolygon extends MTreeNode implements Tagged{
     if(isLeaf())return new ArrayList<MPolygon>(0);
     //refer to this polygons's grid child, refer to that grid's children
     List<? extends TreeNode> children=getChild().getChildren();
-    //gather those chold nodes into a list
+    //gather those old nodes into a list
     List<MPolygon> polygons=new ArrayList<MPolygon>(children.size());
     for(TreeNode n:children)
       polygons.add((MPolygon)n);
@@ -185,16 +183,6 @@ public class MPolygon extends MTreeNode implements Tagged{
     for(int i=0;i<s;i++)
       dpolygon.add(new DPoint(grid.getPoint2D(v[i])));}
   
-  private double[][] getDPolygonAsDoubleArray(){
-    List<DPoint> vp2d=getDPolygon();
-    int s=vp2d.size();
-    double[][] b=new double[s][2];
-    DPoint p;
-    for(int i=0;i<s;i++){
-      p=vp2d.get(i);
-      b[i]=new double[]{p.x,p.y};}
-    return b;}
-  
   /*
    * ++++++++++++++++++++++++++++++++
    * DETAIL SIZE
@@ -210,93 +198,10 @@ public class MPolygon extends MTreeNode implements Tagged{
       detailsize=IncircleCalculator.getIncircle(getDPolygon()).r*2;
     return detailsize;}
   
-  /*
-   * ++++++++++++++++++++++++++++++++
-   * PERIMETER AND AREA
-   * TODO this chould be in DPolygon
-   * ++++++++++++++++++++++++++++++++
-   */
+
   
-  double perimeter2d=-1,area2d=-1;
+
   
-  public double getPerimeter2D(){
-    if(perimeter2d==-1)
-      initPerimeterAndArea();
-    return perimeter2d;}
-  
-  public double getArea2D(){
-    if(area2d==-1)
-      initPerimeterAndArea();
-    return area2d;}
-  
-  private void initPerimeterAndArea(){
-    double[][] a=getDPolygonAsDoubleArray();
-    perimeter2d=GD.getPerimeter(a);
-    area2d=GD.getAbsArea2D(a);}
-  
-  /*
-   * ################################
-   * SIGNATURE
-   * This is a way of characterizing a bubble's context. 
-   * It's a little sloppy (chorus indices don't necessarily denote similar contexts) but 
-   * it works nice for symmetry. 
-   * ################################
-   */
-  
-  private MPolygonSignature signature=null;
-  private MPolygonSignature.SigComponent signaturecomponent=null;
-  
-  public MPolygonSignature getSignature(){
-    if(signature==null)signature=new MPolygonSignature(this);
-    return signature;}
-  
-  public MPolygonSignature.SigComponent getSignatureComponent(){
-    if(signaturecomponent==null)
-      signaturecomponent=new MPolygonSignature.SigComponent(this);
-    return signaturecomponent;}
-  
-  /*
-   * ################################
-   * CHORUS INDEX
-   * siblings of similar geometry are often grouped for parallel treatment by giving them identical chorus indices
-   * chorus indices through the ancestry of a polygon (a list of chorus indices) uniquely ids this FNPolygon's geometric context
-   * ################################
-   */
-  
-  public int chorusindex;
-  
-  public int getChorusIndex(){
-    return chorusindex;}
-  
-  /*
-   * ################################
-   * TAGS
-   * We get tags 3 ways
-   * 
-   * there is a productiontags, gotten from the section of the jig that makes this polygon
-   * tags from this polygon's metagon
-   * tags from analysis
-   * ################################
-   */
-  
-  private TagManager tagmanager=new TagManager();
-  
-  public String[] getTags(){
-    return tagmanager.getTags();}
-  
-  public void initTags(String[] tags){
-    tagmanager.setTags(tags);}
-  
-  public boolean hasTag(String tag){
-    return tagmanager.hasTag(tag);}
-  
-  /*
-   * ################################
-   * OBJECT
-   * ################################
-   */
-  
-  public String toString(){
-    return getClass().getSimpleName()+"["+hashCode()+"]"+tagmanager;}
+
 
 }
