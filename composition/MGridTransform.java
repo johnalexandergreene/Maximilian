@@ -5,9 +5,16 @@ import org.fleen.geom_Kisrhombille.KVertex;
 
 /*
  * NODE GRID TRANSFORM
- * One way or another we glean the params of this transform
- * We might do params, we might derive from an ancestor polygon 
- * We might do a little of both (like we do in pGrammatic), 
+ * Given an MShape (defined in terms of its parent's grid), define a grid
+ * get 
+ *   origin : p0 or outer polygon p0
+ *   forward : dir(p0,p1)
+ *   twist : polygon chirality : cw=true, ccw=false
+ *   6 fishes : one for each axis
+ *     we can handle only deformations that are uniform over each axis
+ *     we derive fish by getting the distance between 2 coaxial points across the polygon and dividing it by the undeformed distance 
+ *     (we could get scale that way too, or whatever) 
+ * 
  */
 public class MGridTransform extends MGrid{
   
