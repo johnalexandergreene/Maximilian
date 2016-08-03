@@ -7,7 +7,7 @@ import org.fleen.geom_Kisrhombille.KVertex;
  * NODE GRID TRANSFORM
  * Given an MShape (defined in terms of its parent's grid), define a grid
  * get 
- *   origin : p0 or outer polygon p0
+ *   origin : p0 or (in the case of a yard) outer polygon p0
  *   forward : dir(p0,p1)
  *   twist : polygon chirality : cw=true, ccw=false
  *   6 fishes : one for each axis
@@ -36,9 +36,16 @@ public class MGridTransform extends MGrid{
     this.twisttransform=twisttransform;
     this.fishtransform=fishtransform;}
   
+  public MGridTransform(MShape shape,int density){
+    
+    
+    
+  }
+  
   /*
    * ################################
    * TRANSFORM PARAMS
+   * 
    * ################################
    */
   
