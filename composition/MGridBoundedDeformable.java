@@ -16,7 +16,7 @@ import org.fleen.geom_Kisrhombille.KVertex;
  *     (we could get scale that way too, or whatever) 
  * 
  */
-public class MGridTransform extends MGrid{
+public class MGridBoundedDeformable extends MGrid{
   
   private static final long serialVersionUID=-220936433111379307L;
   
@@ -26,17 +26,7 @@ public class MGridTransform extends MGrid{
    * ################################
    */
   
-  public MGridTransform(
-    KVertex origintransform,
-    int forewardtransform,
-    boolean twisttransform,
-    double fishtransform){
-    this.origintransform=origintransform;
-    this.forewardtransform=forewardtransform;
-    this.twisttransform=twisttransform;
-    this.fishtransform=fishtransform;}
-  
-  public MGridTransform(MShape shape,int density){
+  public MGridBoundedDeformable(MShape shape,int density){
     
     
     

@@ -44,7 +44,7 @@ public class MComposition implements Maximilian{
   //create a root polygon from the specified metagon. We use the default.
   //set parent-child relationships
   public void initTree(MMetagon rootpolygonmetagon){
-    root=new MGridRoot();
+    root=new MGridBasic();
     MPolygon p=new MPolygon(rootpolygonmetagon);
     root.setChild(p);
     p.setParent(root);}
@@ -52,11 +52,11 @@ public class MComposition implements Maximilian{
   //create a root grid. We use the default.
   //set parent-child relationships
   public void initTree(MPolygon rootpolygon){
-    root=new MGridRoot();
+    root=new MGridBasic();
     root.setChild(rootpolygon);
     rootpolygon.setParent(root);}
   
-  public void initTree(MGridRoot grid,MPolygon rootpolygon){
+  public void initTree(MGridBasic grid,MPolygon rootpolygon){
     root=grid;
     root.setChild(rootpolygon);
     rootpolygon.setParent(root);}
@@ -69,12 +69,12 @@ public class MComposition implements Maximilian{
    * ################################
    */
   
-  public MGridRoot root;
+  public MGridBasic root;
 
-  public MGridRoot getRoot(){
+  public MGridBasic getRoot(){
     return root;}
   
-  public void setRoot(MGridRoot root){
+  public void setRoot(MGridBasic root){
     this.root=root;}
 
   public TreeNodeIterator getNodeIterator(){

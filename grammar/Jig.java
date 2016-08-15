@@ -8,7 +8,7 @@ import org.fleen.geom_2D.DPolygon;
 import org.fleen.geom_2D.IncircleCalculator;
 import org.fleen.geom_Kisrhombille.KPolygon;
 import org.fleen.maximilian.Maximilian;
-import org.fleen.maximilian.composition.MGridTransform;
+import org.fleen.maximilian.composition.MGridBoundedDeformable;
 import org.fleen.maximilian.composition.MPolygon;
 import org.fleen.maximilian.composition.MTreeNode;
 import org.fleen.util.tag.TagManager;
@@ -92,7 +92,7 @@ public class Jig implements Serializable,Tagged,Maximilian{
   public List<MTreeNode> createNodes(MPolygon target){
     List<MTreeNode> newnodes=new ArrayList<MTreeNode>();
     //create the grid node
-    MGridTransform newgrid=new MGridTransform(
+    MGridBoundedDeformable newgrid=new MGridBoundedDeformable(
       target.anchor.v0,
       target.getLocalBaseForeward(),
       target.anchor.twist,

@@ -39,10 +39,10 @@ public abstract class MShape extends MTreeNode implements Tagged{
     MGrid grid;
     if(this instanceof MPolygon){
       polygon=(MPolygon)this;
-      grid=new MGridTransform(polygon,density);
+      grid=new MGridBoundedDeformable(polygon,density);
     }else{
       polygon=((MYard)this).polygons.get(0);
-      grid=new MGridTransform(polygon,density);}
+      grid=new MGridBoundedDeformable(polygon,density);}
     grid.setParent(this);
     setChild(grid);
     return grid;}

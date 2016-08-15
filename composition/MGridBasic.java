@@ -7,7 +7,7 @@ import org.fleen.geom_Kisrhombille.KGrid;
  * Grid node on Tree where the grid is defined by local params
  * A simple wrapper for a KGrid
  */
-public class MGridRoot extends MGrid{
+public class MGridBasic extends MGrid{
   
   private static final long serialVersionUID=-6976402647903611804L;
   
@@ -17,7 +17,7 @@ public class MGridRoot extends MGrid{
    * ################################
    */
   
-  public MGridRoot(double[] origin,double foreward,boolean twist,double fish){
+  public MGridBasic(double[] origin,double foreward,boolean twist,double fish){
     localkgrid=new KGrid(origin,foreward,twist,fish);}
   
   //default form
@@ -26,7 +26,7 @@ public class MGridRoot extends MGrid{
   private static final boolean TWIST_DEFAULT=true;
   private static final double FISH_DEFAULT=1.0;
   
-  public MGridRoot(){
+  public MGridBasic(){
     this(ORIGIN_DEFAULT,FOREWARD_DEFAULT,TWIST_DEFAULT,FISH_DEFAULT);}
   
   /*
