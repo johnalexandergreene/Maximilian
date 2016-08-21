@@ -1,16 +1,21 @@
 package org.fleen.maximilian.composition;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.fleen.maximilian.Maximilian;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
 import org.fleen.util.tree.TreeNode;
+import org.fleen.util.tree.TreeNodeIterator;
+import org.fleen.util.tree.TreeNodeServices;
 
 /*
  * abstract class upon which MPolygon and MYard are based
  */
-public abstract class MShape extends MTreeNode implements Tagged{
+public abstract class MShape implements TreeNode,Serializable,Maximilian,Tagged{
   
   private static final long serialVersionUID=3945977644698006389L;
   
@@ -20,8 +25,82 @@ public abstract class MShape extends MTreeNode implements Tagged{
    * ################################
    */
   
-  public MShape(int chorusindex){
-    this.chorusindex=chorusindex;}
+  public MShape(int chorusindex,List<String> tags){
+    this.chorusindex=chorusindex;
+    addTags(tags);}
+  
+  /*
+   * ################################
+   * TREENODE
+   * ################################
+   */
+  
+  public TreeNodeServices treenodeservices=new TreeNodeServices();
+  
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * IMPLEMENTATION OF TreeNode INTERFACE
+   */
+  
+  public TreeNode getParent(){
+    return treenodeservices.getParent();}
+  
+  public void setParent(TreeNode node){
+    treenodeservices.setParent(node);}
+  
+  public List<? extends TreeNode> getChildren(){
+    return treenodeservices.getChildren();}
+  
+  public TreeNode getChild(){
+    return treenodeservices.getChild();}
+  
+  public void setChildren(List<? extends TreeNode> nodes){
+    treenodeservices.setChildren(nodes);}
+  
+  public void setChild(TreeNode node){
+    treenodeservices.setChild(node);}
+  
+  public void addChild(TreeNode node){
+    treenodeservices.addChild(node);}
+  
+  public int getChildCount(){
+    return treenodeservices.getChildCount();}
+  
+  public boolean hasChildren(){
+    return treenodeservices.hasChildren();}
+  
+  public void clearChildren(){
+    treenodeservices.clearChildren();}
+  
+  public void removeChildren(Collection<? extends TreeNode> children){
+    treenodeservices.removeChildren(children);}
+  
+  public boolean isRoot(){
+    return treenodeservices.isRoot();}
+  
+  public boolean isLeaf(){
+    return treenodeservices.isLeaf();}
+  
+  public int getDepth(){
+    return treenodeservices.getDepth(this);}
+  
+  public TreeNode getRoot(){
+    return treenodeservices.getRoot(this);}
+  
+  public TreeNode getAncestor(int levels){
+    return treenodeservices.getAncestor(this,levels);}
+  
+  public List<TreeNode> getSiblings(){
+    return treenodeservices.getSiblings(this);}
+  
+  //MSHAPE SPECIFIC
+  
+  /**
+   * @return nodes in the branch rooted at this node
+   */
+  public TreeNodeIterator getNodeIterator(){
+    return new TreeNodeIterator(this);}
+  
   
   /*
    * ################################
@@ -46,36 +125,6 @@ public abstract class MShape extends MTreeNode implements Tagged{
     grid.setParent(this);
     setChild(grid);
     return grid;}
-  
-  /*
-   * ################################
-   * TREE STUFF
-   * ################################
-   */
-  
-  /*
-   * traversing the tree we get rootgrid > rootshape (polygon) > grid > shape > grid > shape ... etc  
-   */
-  public MShape getShapeGrandparent(){
-    if(getParent().isRoot())return null;
-    return (MShape)getAncestor(2);}
-  
-  /*
-   * a shape has 0 or 1 child
-   * if it has a child then it's a grid
-   * that grid has 1..n children, shapes
-   * return those shapes if they exist, return null otherwise
-   */
-  public List<MShape> getShapeGrandchildren(){
-    //if this shape is a leaf
-    if(isLeaf())return null;
-    //refer to this polygons's grid child, refer to that grid's children
-    List<? extends TreeNode> children=getChild().getChildren();
-    //gather those old nodes into a list
-    List<MShape> shapes=new ArrayList<MShape>(children.size());
-    for(TreeNode n:children)
-      shapes.add((MShape)n);
-    return shapes;}
   
   /*
    * ################################
@@ -136,6 +185,14 @@ public abstract class MShape extends MTreeNode implements Tagged{
   
   public void removeTags(List<String> tags){
     tagmanager.removeTags(tags);}
+  
+  /*
+   * ################################
+   * GENERAL PURPOSE OBJECT
+   * ################################
+   */
+  
+  public Object gpobject;
   
   /*
    * ################################

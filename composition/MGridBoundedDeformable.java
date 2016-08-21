@@ -1,5 +1,6 @@
 package org.fleen.maximilian.composition;
 
+import org.fleen.geom_2D.DPoint;
 import org.fleen.geom_Kisrhombille.KGrid;
 import org.fleen.geom_Kisrhombille.KVertex;
 
@@ -66,12 +67,20 @@ public class MGridBoundedDeformable extends MGrid{
     
   }
   
+  
+  
   /*
    * ################################
-   * TRANSFORM PARAMS
-   * 
+   * ORIGIN
    * ################################
    */
+  
+  public DPoint origin;
+  
+  private void initOrigin(){
+    
+  }
+  
   
   //a kvertex relative to origin of the uptree kgrid 
   public KVertex origintransform;

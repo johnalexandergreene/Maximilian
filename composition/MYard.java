@@ -27,11 +27,10 @@ public class MYard extends MShape{
    *   system, so we assign the chorus index automatically.
    *   We use our reserved chorus index for yards 
    */
-  public MYard(List<MPolygon> polygons,List<String> tags){
-    super(MYARDCHORUSINDEX);
+  public MYard(List<MPolygon> mpolygons,int chorusindex,List<String> tags){
+    super(MYARDCHORUSINDEX,tags);
     //create a new list to decouple param, for safety
-    this.polygons=new ArrayList<MPolygon>(polygons);
-    addTags(tags);}
+    this.mpolygons=new ArrayList<MPolygon>(mpolygons);}
   
   /*
    * ################################
@@ -39,7 +38,7 @@ public class MYard extends MShape{
    * ################################
    */
   
-  public List<MPolygon> polygons;
+  public List<MPolygon> mpolygons;
   
   /*
    * ################################

@@ -10,13 +10,8 @@ import org.fleen.util.tree.TreeNode;
 import org.fleen.util.tree.TreeNodeIterator;
 
 /*
- * A tree of polygons and grids
+ * A tree of polygons and yards
  * some convenient methods for init and node-access
- * 
- * This is our Forsythia polygon node composition 
- * It manages a tree of nodes : polygons and grids
- * 
- * we init the tree, build it, access it
  */
 public class MComposition implements Maximilian{
   
