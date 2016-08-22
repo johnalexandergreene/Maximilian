@@ -1,6 +1,6 @@
 package org.fleen.maximilian.app.test;
 
-import org.fleen.maximilian.composition.MComposition;
+import org.fleen.maximilian.MComposition;
 
 public class Composer000 implements Composer{
   

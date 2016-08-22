@@ -1,10 +1,8 @@
-package org.fleen.maximilian.composition;
+package org.fleen.maximilian;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fleen.maximilian.Maximilian;
-import org.fleen.maximilian.grammar.MMetagon;
 import org.fleen.maximilian.grammar.MGrammar;
 import org.fleen.util.tree.TreeNode;
 import org.fleen.util.tree.TreeNodeIterator;
@@ -12,6 +10,9 @@ import org.fleen.util.tree.TreeNodeIterator;
 /*
  * A tree of polygons and yards
  * some convenient methods for init and node-access
+ * reference to
+ *   a forsythia grammar 
+ *   a jig server
  */
 public class MComposition implements Maximilian{
   

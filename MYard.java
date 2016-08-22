@@ -1,7 +1,9 @@
-package org.fleen.maximilian.composition;
+package org.fleen.maximilian;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.fleen.geom_2D.DYard;
 
 /*
  * A polygonal shape pierced by 1..n polygonal shapes (holes)
@@ -40,12 +42,18 @@ public class MYard extends MShape{
   
   public List<MPolygon> mpolygons;
   
+  public DYard getDYard(){
+    DYard y=new DYard(mpolygons.size());
+    for(MPolygon p:mpolygons)
+      y.add(p.dpolygon);
+    return y;}
+  
   /*
    * ################################
    * CHORUS INDEX
    * ################################
    */
   
-  public static final int MYARDCHORUSINDEX=-1;
+  public static final int MYARDCHORUSINDEX=Integer.MAX_VALUE;
 
 }

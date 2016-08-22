@@ -1,20 +1,17 @@
-package org.fleen.maximilian.grammar;
-
-import java.io.Serializable;
+package org.fleen.maximilian;
 
 import org.fleen.geom_Kisrhombille.KMetagon;
 import org.fleen.geom_Kisrhombille.KMetagonVector;
 import org.fleen.geom_Kisrhombille.KPolygon;
 import org.fleen.geom_Kisrhombille.KVertex;
-import org.fleen.maximilian.Maximilian;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
 
 /*
- * KMetagon that implements Serializable and Tagged.
- * Used in Forsythia process
+ * KMetagon with some extra stuff for the Maximilian system 
+ * Operand in our Maximilian shape grammar
  */
-public class MMetagon extends KMetagon implements Serializable,Tagged,Maximilian{
+public class MMetagon extends KMetagon implements Tagged,Maximilian{
   
   private static final long serialVersionUID=2763461150931052809L;
 
@@ -78,8 +75,5 @@ public class MMetagon extends KMetagon implements Serializable,Tagged,Maximilian
       a.append(vectors[i].toString()+" ");
     a.append(vectors[vectors.length-1].toString()+"]]");
     return a.toString();}
-  
-  
-  
   
 }

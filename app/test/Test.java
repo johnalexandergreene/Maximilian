@@ -12,7 +12,7 @@ import java.io.ObjectInputStream;
 import javax.swing.JTextField;
 
 import org.fleen.forsythia.grammar.ForsythiaGrammar;
-import org.fleen.maximilian.composition.MComposition;
+import org.fleen.maximilian.MComposition;
 import org.fleen.maximilian.grammar.MGrammar;
 
 /*

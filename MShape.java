@@ -1,11 +1,9 @@
-package org.fleen.maximilian.composition;
+package org.fleen.maximilian;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.fleen.maximilian.Maximilian;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
 import org.fleen.util.tree.TreeNode;
@@ -93,38 +91,11 @@ public abstract class MShape implements TreeNode,Serializable,Maximilian,Tagged{
   public List<TreeNode> getSiblings(){
     return treenodeservices.getSiblings(this);}
   
-  //MSHAPE SPECIFIC
-  
   /**
    * @return nodes in the branch rooted at this node
    */
   public TreeNodeIterator getNodeIterator(){
     return new TreeNodeIterator(this);}
-  
-  
-  /*
-   * ################################
-   * GEOMETRY
-   * ################################
-   */
-  
-  /*
-   * create a new grid node based on this shape's geometry
-   * set it as a child of this node
-   * return a reference 
-   */
-  public MGrid createGrid(int density){
-    MPolygon polygon;
-    MGrid grid;
-    if(this instanceof MPolygon){
-      polygon=(MPolygon)this;
-      grid=new MGridBoundedDeformable(polygon,density);
-    }else{
-      polygon=((MYard)this).polygons.get(0);
-      grid=new MGridBoundedDeformable(polygon,density);}
-    grid.setParent(this);
-    setChild(grid);
-    return grid;}
   
   /*
    * ################################
@@ -140,7 +111,7 @@ public abstract class MShape implements TreeNode,Serializable,Maximilian,Tagged{
    * It's also just useful info.
    * 
    * Polygons get index 0..n
-   * Yards get index -1
+   * Yards get a constant. probably MAXINT
    * ################################
    */
   
