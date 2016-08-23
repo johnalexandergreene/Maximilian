@@ -39,4 +39,7 @@ public class MPolygon extends MShape{
   public DPolygon dpolygon;
   public MMetagon mmetagon;
   
+  public DPolygon getDPolygon(){
+    return dpolygon;}
+  
 }

@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 
 import org.fleen.forsythia.grammar.ForsythiaGrammar;
 import org.fleen.maximilian.MComposition;
-import org.fleen.maximilian.grammar.MGrammar;
 
 /*
  * test for maximilian
@@ -28,7 +27,7 @@ public class Test{
   
   public Test(){
     initUI();
-    initGrammar();}
+    composer.compose();}
   
   /*
    * ################################
@@ -58,11 +57,7 @@ public class Test{
   
   /*
    * ################################
-   * GRAMMAR
-   * The Maximilian grammar uses a Forsythia grammar
-   *   it elaborates it. from the metagons and operators it derives splitters, boilers and crushers
-   *   
-   * So we import an FGrammar and then we use it as a param to construct an MGrammar
+   * FORSYTHIA GRAMMAR
    * ################################
    */
   
@@ -72,13 +67,7 @@ public class Test{
 //  private static final String FGRAMMAR_FILE_PATH=
 //      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_06_16/g001_simpletriangles_hexroot";
   
-  MGrammar mgrammar;
-  
-  private void initGrammar(){
-    ForsythiaGrammar fgrammar=getFGrammar();
-    mgrammar=new MGrammar(fgrammar);}
-    
-  private ForsythiaGrammar getFGrammar(){
+  public ForsythiaGrammar getForsythiaGrammar(){
     ForsythiaGrammar grammar=null;
     try{
       File f=new File(FGRAMMAR_FILE_PATH);
@@ -109,10 +98,11 @@ public class Test{
     
   /*
    * ################################
-   * COMPOSER
+   * COMPOSITION
    * ################################
    */
   
+  MComposition composition;
   Composer composer=new Composer000(this);
   
   /*
@@ -140,7 +130,6 @@ public class Test{
    * ################################
    */
   
-  MComposition composition;
   private boolean stopcontinuouscreation;
 
   /*

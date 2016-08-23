@@ -50,6 +50,7 @@ public class MComposition implements Maximilian{
   /*
    * ################################
    * METAGONS
+   * A metagon is the abstracted operands in our shape-grammarly dance
    * ################################
    */
   
@@ -80,6 +81,7 @@ public class MComposition implements Maximilian{
   /*
    * ################################
    * JIG SERVER
+   * A jig is the operator in our shape-grammarly dance
    * ################################
    */
   
