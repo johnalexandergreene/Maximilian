@@ -1,64 +1,23 @@
 package org.fleen.maximilian;
 
-import java.util.List;
-
-import org.fleen.forsythia.grammar.ForsythiaGrammar;
-
 /*
- * Based on a ForsythiaGrammar
- * A list of MMetagons (derived from FMetagons). The operands in our grammar. Shapes in the abstract.
- * A list of basic jigs. Splitters. Derived from ForsythiaGrammar.
- * Methods for getting boilers and crushers, each derived from a splitter and some geometry params
+ * Given a shape, get a jig 
+ * The selection logic depends on the implementation
+ * 
+ * we have several kinds of jigs; splitters, boilers, crushers... maybe some others
+ * 
+ * We have a default implementation, MJigServer_Basic. It does a chorused random selection thing.
  */
-public class MJigServer{
+public interface MJigServer{
   
   /*
-   * ################################
-   * CONSTRUCTORS
-   * ################################
+   * return a jig compatible with the specified shape
    */
-  
-  public MJigServer(ForsythiaGrammar fg){
-    
-  }
+  MJig getJig(MShape shape);
   
   /*
-   * ################################
-   * MMETAGONS
-   * ################################
+   * return a jigs compatible with the specified shape and with the specified tag/s
    */
+  MJig getJigs(MShape shape,String... tag);
   
-  public List<MMetagon> getMMetagons(){
-    return null;
-  }
-  
-  /*
-   * ################################
-   * JIGS APPLICABLE TO MPOLYGONS
-   * ################################
-   */
-  
-  /*
-   * simple. based on FGrammar operators
-   */
-  public List<MJig> getSplitters(MPolygon mpolygon){
-    return null;
-  }
-  
-  public List<MJig> getBoilers(MPolygon mpolygon,double span){
-    return null;
-  }
-  
-  public List<MJig> getCrushers(MPolygon mpolygon,double span0,double span1){
-    return null;
-  }
-  
-  /*
-   * ################################
-   * JIGS APPLICABLE TO MYARDS
-   * ################################
-   */
-  
-  
-
 }

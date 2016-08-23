@@ -10,7 +10,7 @@ import java.util.List;
  * 
  * We use real 2d geometry for our shapes
  *   
- * The 2d shapes may optionally be (and often are) based on kpolygons and kisrhombille geometry.
+ * The 2d shapes are based on kpolygons and kisrhombille geometry.
  * 
  * The jig is the operator in our shape grammar
  *    

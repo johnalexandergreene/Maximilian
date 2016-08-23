@@ -151,6 +151,9 @@ public abstract class MShape implements TreeNode,Serializable,Maximilian,Tagged{
   public boolean hasTag(String tag){
     return tagmanager.hasTag(tag);}
   
+  public boolean hasTags(String...tags){
+    return tagmanager.hasTags(tags);}
+  
   public void addTags(List<String> tags){
     tagmanager.addTags(tags);}
   

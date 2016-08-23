@@ -1,5 +1,6 @@
 package org.fleen.maximilian;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.fleen.geom_2D.DPolygon;
@@ -23,6 +24,11 @@ public class MPolygon extends MShape{
     super(chorusindex,tags);
     this.dpolygon=dpolygon;
     this.mmetagon=mmetagon;}
+  
+  public MPolygon(MMetagon mmetagon){
+    super(0,Arrays.asList(mmetagon.getTags()));
+    this.mmetagon=mmetagon;
+    dpolygon=mmetagon.getPolygon().getDefaultPolygon2D();}
   
   /*
    * ################################

@@ -1,9 +1,7 @@
 package org.fleen.maximilian;
 
+import org.fleen.forsythia.grammar.FMetagon;
 import org.fleen.geom_Kisrhombille.KMetagon;
-import org.fleen.geom_Kisrhombille.KMetagonVector;
-import org.fleen.geom_Kisrhombille.KPolygon;
-import org.fleen.geom_Kisrhombille.KVertex;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
 
@@ -17,22 +15,13 @@ public class MMetagon extends KMetagon implements Tagged,Maximilian{
 
   /*
    * ################################
-   * CONSTRUCTORS
+   * CONSTRUCTOR
    * ################################
    */
   
-  public MMetagon(double baseinterval,KMetagonVector[] vectors){
-    super(baseinterval,vectors);}
-  
-  public MMetagon(KVertex... vertices){
-    super(vertices);}
-  
-  public MMetagon(KPolygon polygon){
-    super(polygon);}
-  
-  public MMetagon(KMetagon km,String[] tags){
-    super(km);
-    setTags(tags);}
+  public MMetagon(FMetagon fm){
+    super(fm);
+    setTags(fm.getTags());}
   
   /*
    * ################################
@@ -50,6 +39,9 @@ public class MMetagon extends KMetagon implements Tagged,Maximilian{
   
   public boolean hasTag(String tag){
     return tagmanager.hasTag(tag);}
+  
+  public boolean hasTags(String...tags){
+    return tagmanager.hasTags(tags);}
   
   /*
    * ################################
