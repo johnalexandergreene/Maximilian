@@ -14,13 +14,16 @@ public class MSplitter implements MJig{
   }
 
   private void init(Jig jig,BoundedDeformableKGrid grid){
-    //init grid
+    
   }
   
-  @Override
+  public BoundedDeformableKGrid grid;
+  
   public List<MShape> createShapes(MShape target){
-    // TODO Auto-generated method stub
+    grid=new BoundedDeformableKGrid(target,1);
     return null;
+    
+    
   }
 
   @Override
