@@ -1,8 +1,9 @@
 package org.fleen.maximilian.app.test;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.fleen.geom_Kisrhombille.KPolygon;
@@ -51,17 +52,44 @@ public class BoundedDeformableKGrid{
   private void init(MPolygon mpolygon,int density){
     boolean twist=mpolygon.dpolygon.getTwist();
     KPolygon kpolygon=mpolygon.mmetagon.getPolygon(density,twist);
-    //get edge vertices (reticulate)
-    //TODO for easier checking interior-cross we should mark all these edge vertices for what side-seg they are on
-    //a corner vertex is on 2 adjoining sides of course
-    
-    KPolygon edgevertices=kpolygon.getReticulation();
+    //create edgevertices polygon
+    //we hold the side of each edge vertex too : edgevertexsideinfo
+    //a corner vertex is on 2 adjoining sides
+    doEdgeVertices(kpolygon);
     //get interior seg pairs
     Set<SegPair> segpairs=getSegPairs(edgevertices);
+    //cull noncrossing
+    //noncrossing means that the seg described by the segpair does not cross over the interior or exterior of the polygon
+    //  that is, the seg is entirely on one side of the polygon
+    cullNoncrossingSegPairs(segpairs);
+    //if the polygon is concave, cull the segpairs that describe a seg that 
+    //crosses the outside of the polygon
+    if(kpolygon.getDefaultPolygon2D().isConcave())
+      cullOutsideCrossingPairs(segpairs); 
+    //create interior strands
+    //a strand is a straight procession of vertices
+    
     
     
     
   }
+  
+  private void createInteriorStrands(){
+    
+  }
+  
+  //TODO
+  private void cullOutsideCrossingPairs(Set<SegPair> segpairs){
+    
+  }
+  
+  private void cullNoncrossingSegPairs(Set<SegPair> segpairs){
+    Iterator<SegPair> i=segpairs.iterator();
+    SegPair sp;
+    while(i.hasNext()){
+      sp=i.next();
+      if(!crosses(sp))
+        i.remove();}}
   
   Set<SegPair> getSegPairs(KPolygon edgevertices){
     Set<SegPair> sp=new HashSet<SegPair>();
@@ -97,30 +125,65 @@ public class BoundedDeformableKGrid{
   }
   
   /*
-   * returns the fully reticulated form of this polygon
-   * That is, all traversed vertices are represented. 
-   *   Not just the corners, the vertices in-between the corners too. If any.
+   * tests a segpair for crossing
+   * if the seg crosses the interior or the exterior of the param polygon
+   * if the vertices in the pair are on the same side then the segpair doesn't cross
+   *   otherwise it does 
+   */
+  boolean crosses(SegPair sp){
+    SideInfo 
+      si0=edgevertexsideinfo.get(sp.v0),
+      si1=edgevertexsideinfo.get(sp.v1);
+    if(
+      (si0.side0==si1.side0)||
+      (si0.side1==si1.side0)||
+      (si0.side0==si1.side1)||
+      (si0.side1==si1.side1))
+      return false;
+    return true;}
+  
+  /*
+   * create an edge-vertices polygon
+   * that is, the fully reticulated form of our param polygon
+   * all traversed vertices are represented. Not just the corners, the vertices in-between the corners too. If any.
    *    
    * We also record which vertices are on which side
    *   corner vertices are on 2 adjoining sides
    * We use this for testing for interior/exterior crossing
    *   if 2 vertices are not on the same side then they cross the interior or exterior, right?
    */
-  public KPolygon getEdgeVertices(){
-    List<KVertex> vertices=new ArrayList<KVertex>();
-    int s=size(),i0,i1;
+  
+  void doEdgeVertices(KPolygon kpolygon){
+    edgevertices=new KPolygon(kpolygon.size());
+    int s=kpolygon.size(),i0,i1;
     KVertex c0,c1,v;
     int d;
     for(i0=0;i0<s;i0++){//i0 is also side index
       i1=i0+1;
       if(i1==s)i1=0;
-      c0=get(i0);
-      c1=get(i1);
+      c0=kpolygon.get(i0);
+      c1=kpolygon.get(i1);
       d=c0.getDirection(c1);
       v=c0;
       while(!v.equals(c1)){
-        vertices.add(v);
-        v=v.getVertex_Adjacent(d);}}
-    return new KPolygon(vertices);}
+        addSideInfo(v,i0);
+        edgevertices.add(v);
+        v=v.getVertex_Adjacent(d);}}}
+  
+  KPolygon edgevertices;
+  
+  Map<KVertex,SideInfo> edgevertexsideinfo=new HashMap<KVertex,SideInfo>();
+  
+  void addSideInfo(KVertex v,int side){
+    SideInfo si=edgevertexsideinfo.get(v);
+    if(si==null){
+      si=new SideInfo();
+      si.side0=side;
+      edgevertexsideinfo.put(v,si);
+    }else{
+      si.side1=side;}}
+  
+  class SideInfo{
+    int side0,side1=-1;}
 
 }
