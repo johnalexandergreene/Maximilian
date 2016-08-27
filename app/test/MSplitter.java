@@ -5,6 +5,7 @@ import java.util.List;
 import org.fleen.forsythia.grammar.Jig;
 import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MShape;
+import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
 
 public class MSplitter implements MJig{
   

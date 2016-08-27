@@ -8,6 +8,7 @@ import org.fleen.maximilian.MComposition;
 import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
+import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
 
 public class Composer000 implements Composer{
   
@@ -35,7 +36,7 @@ public class Composer000 implements Composer{
         jig.createShapes(shape);}}
   
   private MJig getJig(MComposition composition,MShape shape){
-    BoundedDeformableKGrid grid=new BoundedDeformableKGrid(shape);
+    BoundedDeformableKGrid grid=new BoundedDeformableKGrid(shape,1);
     MJig jig=null;
     if(shape instanceof MPolygon)
       jig=getSplitter(composition,(MPolygon)shape,grid);

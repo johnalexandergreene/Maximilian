@@ -5,18 +5,20 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Random;
 
-import org.fleen.forsythia.composition.FPolygon;
-import org.fleen.forsythia.composition.ForsythiaComposition;
 import org.fleen.geom_2D.DPoint;
+import org.fleen.geom_Kisrhombille.KVertex;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.MYard;
+import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
+import org.fleen.maximilian.boundedDeformableKGrid.KVertexPointDefinition;
 
 public class Renderer000 implements Renderer{
   
@@ -46,6 +48,8 @@ public class Renderer000 implements Renderer{
   
   Random rnd=new Random();
   
+  private static final double DOT0_SIZE=5.0;
+  
   public BufferedImage render(){
     int 
       w=test.ui.panimage.getWidth(),
@@ -64,6 +68,25 @@ public class Renderer000 implements Renderer{
     for(MShape shape:test.composition.getShapes()){
       path=getShapePath(shape);
       graphics.draw(path);}
+    
+    //TEST render BoundedDeformableKGrid
+    DPoint p;
+    Ellipse2D e=new Ellipse2D.Double();
+    double dot0size=DOT0_SIZE/t.getScaleX();
+    for(MShape shape:test.composition.getShapes()){
+      BoundedDeformableKGrid g=new BoundedDeformableKGrid(shape,3);
+      KVertexPointDefinition def;
+      for(KVertex v:g.edgevertices){
+        if(g.isCorner(v))
+          graphics.setPaint(Color.red);
+        else
+          graphics.setPaint(Color.green);
+        def=g.edgevertexpointdefinitions.get(v);
+        if(def==null)System.out.println("NULL DEF");
+        p=def.getPoint();
+        e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
+        graphics.fill(e);}}
+    
     return image;}
   
   private Path2D getShapePath(MShape shape){
@@ -90,7 +113,7 @@ public class Renderer000 implements Renderer{
       path.append(getPolygonPath(p),false);
     return path;}
   
-  private static final double MARGIN=10;
+  private static final double MARGIN=30;
   
   private AffineTransform getTransform(int imagewidth,int imageheight,MPolygon rootpolygon){
     //get all the relevant metrics
