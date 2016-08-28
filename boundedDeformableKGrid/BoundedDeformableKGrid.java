@@ -58,25 +58,9 @@ public class BoundedDeformableKGrid{
   private void init(MPolygon mpolygon,int density){
     boolean twist=mpolygon.dpolygon.getTwist();
     KPolygon kpolygon=mpolygon.mmetagon.getPolygon(density,twist);
-    
-    System.out.println("111 kpolygon size ="+kpolygon.size());
-    //create edgevertices polygon
-    //we hold the side of each edge vertex too : edgevertexsideinfo
-    //a corner vertex is on 2 adjoining sides
-    //TODO I think we don't need the sideinfo
     doEdgeVertices(kpolygon,mpolygon.dpolygon);
-    //it makes things easier
-    initEdgeVertexAdjacents();
-    //create interior strands
-    //a strand is a straight procession of vertices
-    //an interior strand extends from one edge vertex to another. crossing the interior 
-    doInteriorVertices();
-    
-    
-    
-    
-    
-  }
+    initEdgeVertexAdjacents(); 
+    doInteriorVertices();}
   
   /*
    * ################################
@@ -112,7 +96,9 @@ public class BoundedDeformableKGrid{
   private void doInteriorVertices(){
     Set<CoaxialPair> coaxialpairs=getCoaxialPairs();
     List<InteriorStrand> interiorstrands=createInteriorStrands(coaxialpairs);
-    createInteriorVertexPointDefinitions(interiorstrands);}
+    createInteriorVertexPointDefinitions(interiorstrands);
+    for(KVertex v:interiorvertices)
+      initInteriorVertexPoint(v);}
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -124,31 +110,24 @@ public class BoundedDeformableKGrid{
   
   public DPoint getInteriorPoint(KVertex vertex){
     DPoint p=interiorvertexpoints.get(vertex);
-    if(p==null){
-      p=gleanInteriorPoint(vertex);
-      if(p==null)
-        return null;
-      interiorvertexpoints.put(vertex,p);}
     return p;}
   
-  DPoint gleanInteriorPoint(KVertex vertex){
+  void initInteriorVertexPoint(KVertex vertex){
     List<KVertexPointDefinition> pointdefs=interiorvertexpointdefinitions.get(vertex);
-    if(pointdefs==null)
-      return null;
-    if(pointdefs.size()==1)
-      return pointdefs.get(0).getPoint();
-    //
-    double xsum=0,ysum=0;
     DPoint p;
-    for(KVertexPointDefinition def:pointdefs){
-      p=def.getPoint();
-      xsum+=p.x;
-      ysum+=p.y;}
-    double defscount=pointdefs.size();
-    xsum/=defscount;
-    ysum/=defscount;
-    p=new DPoint(xsum,ysum);
-    return p;}
+    if(pointdefs.size()==1)
+      p=pointdefs.get(0).getPoint();
+    else{
+      double xsum=0,ysum=0;
+      for(KVertexPointDefinition def:pointdefs){
+        p=def.getPoint();
+        xsum+=p.x;
+        ysum+=p.y;}
+      double defscount=pointdefs.size();
+      xsum/=defscount;
+      ysum/=defscount;
+      p=new DPoint(xsum,ysum);}
+    interiorvertexpoints.put(vertex,p);}
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -173,12 +152,12 @@ public class BoundedDeformableKGrid{
       p;
     double dtotal=pfirst.getDistance(plast),d,offset;
     KVertexPointDefinition 
-      deffirst=edgevertexpointdefinitions.get(vfirst),
-      deflast=edgevertexpointdefinitions.get(vlast),
+      deffirst=edgevertexpointdefs.get(vfirst),
+      deflast=edgevertexpointdefs.get(vlast),
       def;
     List<KVertexPointDefinition> defs;
     //exclude first and last, they are edge points
-    for(int i=1;i<s-2;i++){
+    for(int i=1;i<s-1;i++){
       v=strand.get(i);
       interiorvertices.add(v);
       p=v.getBasicPoint2D();
@@ -236,13 +215,21 @@ public class BoundedDeformableKGrid{
    * ++++++++++++++++++++++++++++++++
    */
   
+  //expose strands for debug
+  public List<InteriorStrand> strands;
+  
   private List<InteriorStrand> createInteriorStrands(Set<CoaxialPair> coaxialpairs){
-    List<InteriorStrand> strands=new ArrayList<InteriorStrand>();
+//    List<InteriorStrand> strands=new ArrayList<InteriorStrand>();
+    strands=new ArrayList<InteriorStrand>();
+    
     InteriorStrand strand;
     for(CoaxialPair pair:coaxialpairs){
       strand=getInteriorStrand(pair);
       if(strand!=null)
         strands.add(strand);}
+    
+    //expose strands for debug
+    
     return strands;}
   
   private InteriorStrand getInteriorStrand(CoaxialPair pair){
@@ -252,16 +239,15 @@ public class BoundedDeformableKGrid{
     //do the second vertex in the sequence. test it
     strand.add(v);
     v=v.getVertex_Adjacent(dir);
-    //if the second vertex in the sequence is the second vertex in the pair then 
-    //we're done. We have a 2-vertex strand
-    if(v==pair.v1){
-      strand.add(v);
-      return strand;}
     //if the second vertex in the sequence is either of the edge vertex 
     //polygon adjacents for pair.v0 then we are just running along the edge of the polygon 
     //with this strand. The strand fails 
-    if(v==getEdgeAdjacentPrior(pair.v0)||v==getEdgeAdjacentNext(pair.v0))
+    if(v.equals(getEdgeAdjacentPrior(pair.v0))||v.equals(getEdgeAdjacentNext(pair.v0)))
       return null;
+    //if the second vertex in the sequence is the second vertex in the pair then 
+    //we're done. We have a 2-vertex strand
+    if(v.equals(pair.v1)){
+      return null;}
     //ok, the second vertex checks out ok so far. continue the sequence
     //if we hit and edge vertex before we hit pair.v1 then the strand fails
     while(!v.equals(pair.v1)){
@@ -271,6 +257,10 @@ public class BoundedDeformableKGrid{
       v=v.getVertex_Adjacent(dir);}
     //we have a strand
     strand.add(pair.v1);
+    System.out.println("strand size = "+strand.size());
+    //if the strand is of length 2 then it is composed of only end points and does not cross the interior and is therefor invalid
+    if(strand.size()==2)return null;
+    //
     return strand;}
   
   @SuppressWarnings("serial")
@@ -295,7 +285,7 @@ public class BoundedDeformableKGrid{
    */
   
   public KPolygon edgevertices;
-  public Map<KVertex,KVertexPointDefinition> edgevertexpointdefinitions=new HashMap<KVertex,KVertexPointDefinition>();
+  public Map<KVertex,KVertexPointDefinition> edgevertexpointdefs=new HashMap<KVertex,KVertexPointDefinition>();
   
   void doEdgeVertices(KPolygon kpolygon,DPolygon dpolygon){
     edgevertices=kpolygon.getReticulation();
@@ -312,7 +302,7 @@ public class BoundedDeformableKGrid{
       if(iprior==-1)iprior=s-1;
       kvertex=kpolygon.get(i);
       dpoint=dpolygon.get(i);
-      edgevertexpointdefinitions.put(kvertex,new KVertexPointDefinition(dpoint));}}
+      edgevertexpointdefs.put(kvertex,new KVertexPointDefinition(dpoint));}}
   
   public void createEdgeVerticesAndDoPointDefsForMids(KPolygon kpolygon){
     System.out.println("kpolygon size ="+kpolygon.size());
@@ -346,10 +336,10 @@ public class BoundedDeformableKGrid{
       d1=pfirst.getDistance(pmid),
       offset=d1/d0;
     KVertexPointDefinition
-      deffirst=edgevertexpointdefinitions.get(vfirst),
-      deflast=edgevertexpointdefinitions.get(vlast),
+      deffirst=edgevertexpointdefs.get(vfirst),
+      deflast=edgevertexpointdefs.get(vlast),
       defmid=new KVertexPointDefinition(deffirst,deflast,offset);
-    edgevertexpointdefinitions.put(vmid,defmid);}
+    edgevertexpointdefs.put(vmid,defmid);}
   
   /*
    * ++++++++++++++++++++++++++++++++
@@ -358,11 +348,22 @@ public class BoundedDeformableKGrid{
    */
   
   public DPoint getEdgePoint(KVertex v){
-    KVertexPointDefinition d=edgevertexpointdefinitions.get(v);
-    if(d==null)
-      System.out.println("null def @ getEdgePoint");
+    KVertexPointDefinition d=edgevertexpointdefs.get(v);
+    if(d==null)return null;//this vertex is not on the edge of our polygon
     return d.getPoint();}
   
+  /*
+   * ################################
+   * GENERAL POINTS ACCESS
+   * given a point look in the edge and interior maps
+   * ################################
+   */
+  
+  public DPoint getPoint(KVertex v){
+    DPoint p=getEdgePoint(v);
+    if(p==null)
+      p=getInteriorPoint(v);
+    return p;}
   
   /*
    * ################################

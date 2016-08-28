@@ -74,26 +74,37 @@ public class Renderer000 implements Renderer{
     Ellipse2D e=new Ellipse2D.Double();
     double dot0size=DOT0_SIZE/t.getScaleX();
     BoundedDeformableKGrid g;
+    MPolygon root=test.composition.getRoot();
+    g=new BoundedDeformableKGrid(root,5);
     //edge vertices
+    System.out.println("edgevertices count = "+g.edgevertices.size());
     graphics.setPaint(Color.red);
-    for(MShape shape:test.composition.getShapes()){
-      g=new BoundedDeformableKGrid(shape,5);
-      for(KVertex v:g.edgevertices){
-        p=g.getEdgePoint(v);
-        if(p!=null){
-          e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
-          graphics.fill(e);}}}
-    
+    for(KVertex v:g.edgevertices){
+      p=g.getPoint(v);
+      if(p!=null){
+        e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
+        graphics.fill(e);}}
     //interior vertices
+    System.out.println("interiorvertices count = "+g.interiorvertices.size());
     graphics.setPaint(Color.green);
-    for(MShape shape:test.composition.getShapes()){
-      g=new BoundedDeformableKGrid(shape,5);
-      for(KVertex v:g.interiorvertices){
-        p=g.getInteriorPoint(v);
-        if(p!=null){
-          e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
-          graphics.fill(e);}}}
-    
+    for(KVertex v:g.interiorvertices){
+      p=g.getPoint(v);
+      if(p!=null){
+        e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
+        graphics.fill(e);}}
+    //random strand
+    List<KVertex> strand=g.strands.get(rnd.nextInt(g.strands.size()));
+    System.out.println("random strand size = "+strand.size());
+    graphics.setPaint(Color.blue);
+    for(KVertex v:strand){
+      p=g.getPoint(v);
+      if(p!=null){
+        e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
+        graphics.fill(e);
+      }else{
+        System.out.println("NULL POINT AT PRINT RANDOM STRAND"); 
+      }}
+    //
     return image;}
   
   private Path2D getShapePath(MShape shape){

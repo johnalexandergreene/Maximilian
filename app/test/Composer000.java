@@ -46,6 +46,7 @@ public class Composer000 implements Composer{
   
   private MJig getSplitter(MComposition composition,MPolygon polygon,BoundedDeformableKGrid grid){
     List<Jig> a=composition.getForsythiaGrammar().getJigs(polygon.mmetagon);
+    if(a.isEmpty())return null;
     Jig fjig=a.get(rnd.nextInt(a.size()));
     return new MSplitter(fjig,grid);//TODO we will create these all at once at jig server init
     
