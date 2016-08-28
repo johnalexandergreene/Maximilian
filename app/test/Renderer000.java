@@ -73,19 +73,26 @@ public class Renderer000 implements Renderer{
     DPoint p;
     Ellipse2D e=new Ellipse2D.Double();
     double dot0size=DOT0_SIZE/t.getScaleX();
+    BoundedDeformableKGrid g;
+    //edge vertices
+    graphics.setPaint(Color.red);
     for(MShape shape:test.composition.getShapes()){
-      BoundedDeformableKGrid g=new BoundedDeformableKGrid(shape,3);
-      KVertexPointDefinition def;
+      g=new BoundedDeformableKGrid(shape,5);
       for(KVertex v:g.edgevertices){
-        if(g.isCorner(v))
-          graphics.setPaint(Color.red);
-        else
-          graphics.setPaint(Color.green);
-        def=g.edgevertexpointdefinitions.get(v);
-        if(def==null)System.out.println("NULL DEF");
-        p=def.getPoint();
-        e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
-        graphics.fill(e);}}
+        p=g.getEdgePoint(v);
+        if(p!=null){
+          e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
+          graphics.fill(e);}}}
+    
+    //interior vertices
+    graphics.setPaint(Color.green);
+    for(MShape shape:test.composition.getShapes()){
+      g=new BoundedDeformableKGrid(shape,5);
+      for(KVertex v:g.interiorvertices){
+        p=g.getInteriorPoint(v);
+        if(p!=null){
+          e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
+          graphics.fill(e);}}}
     
     return image;}
   
