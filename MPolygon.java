@@ -30,6 +30,8 @@ public class MPolygon extends MShape{
     this.mmetagon=mmetagon;
     dpolygon=mmetagon.getPolygon().getDefaultPolygon2D();}
   
+  //TODO for jigs we will need anchor params or something.
+  
   /*
    * ################################
    * GEOM

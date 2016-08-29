@@ -60,7 +60,8 @@ public class BoundedDeformableKGrid{
     KPolygon kpolygon=mpolygon.mmetagon.getPolygon(density,twist);
     doEdgeVertices(kpolygon,mpolygon.dpolygon);
     initEdgeVertexAdjacents(); 
-    doInteriorVertices();}
+    boolean polygonisclockwise=mpolygon.dpolygon.getTwist();
+    doInteriorVertices(polygonisclockwise);}
   
   /*
    * ################################
@@ -93,9 +94,9 @@ public class BoundedDeformableKGrid{
   public Map<KVertex,List<KVertexPointDefinition>> interiorvertexpointdefinitions=new HashMap<KVertex,List<KVertexPointDefinition>>();
   public Set<KVertex> interiorvertices=new HashSet<KVertex>();
   
-  private void doInteriorVertices(){
+  private void doInteriorVertices(boolean polygonisclockwise){
     Set<CoaxialPair> coaxialpairs=getCoaxialPairs();
-    List<InteriorStrand> interiorstrands=createInteriorStrands(coaxialpairs);
+    List<InteriorStrand> interiorstrands=createInteriorStrands(coaxialpairs,polygonisclockwise);
     createInteriorVertexPointDefinitions(interiorstrands);
     for(KVertex v:interiorvertices)
       initInteriorVertexPoint(v);}
@@ -218,13 +219,13 @@ public class BoundedDeformableKGrid{
   //expose strands for debug
   public List<InteriorStrand> strands;
   
-  private List<InteriorStrand> createInteriorStrands(Set<CoaxialPair> coaxialpairs){
+  private List<InteriorStrand> createInteriorStrands(Set<CoaxialPair> coaxialpairs,boolean polygonisclockwise){
 //    List<InteriorStrand> strands=new ArrayList<InteriorStrand>();
     strands=new ArrayList<InteriorStrand>();
     
     InteriorStrand strand;
     for(CoaxialPair pair:coaxialpairs){
-      strand=getInteriorStrand(pair);
+      strand=getInteriorStrand(pair,polygonisclockwise);
       if(strand!=null)
         strands.add(strand);}
     
@@ -232,7 +233,7 @@ public class BoundedDeformableKGrid{
     
     return strands;}
   
-  private InteriorStrand getInteriorStrand(CoaxialPair pair){
+  private InteriorStrand getInteriorStrand(CoaxialPair pair,boolean polygonisclockwise){
     InteriorStrand strand=new InteriorStrand();
     KVertex 
       v=pair.v0,
@@ -246,8 +247,12 @@ public class BoundedDeformableKGrid{
     //it's gotta be going between the directions of its adjacents
     //that is, inward
     //if it isn't then this strand fails
-    //TODO this should probably flip for cw/ccw
-    if(!GK.isBetweenRight(dirv0prior,dirv0next,dir))return null; 
+    if(polygonisclockwise){
+      if(!GK.isBetweenRight(dirv0prior,dirv0next,dir))
+        return null;
+    }else{
+      if(!GK.isBetweenLeft(dirv0prior,dirv0next,dir))
+        return null;}
     //if we hit an edge vertex before we hit pair.v1 then the strand fails
     while(!v.equals(pair.v1)){
       if(v!=pair.v0&&edgevertices.contains(v))
