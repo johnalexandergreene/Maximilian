@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.fleen.geom_2D.DPoint;
+import org.fleen.geom_Kisrhombille.GK;
 import org.fleen.geom_Kisrhombille.KVertex;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
@@ -34,10 +35,8 @@ public class Renderer000 implements Renderer{
    * ################################
    */
   
-  private float strokewidth;
-  
-  private Stroke createStroke(){
-    Stroke stroke=new BasicStroke(strokewidth,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);
+  private Stroke createStroke(double strokewidth){
+    Stroke stroke=new BasicStroke((float)strokewidth,BasicStroke.CAP_SQUARE,BasicStroke.JOIN_ROUND,0,null,0);
     return stroke;}
   
   /*
@@ -48,7 +47,7 @@ public class Renderer000 implements Renderer{
   
   Random rnd=new Random();
   
-  private static final double DOT0_SIZE=5.0;
+  private static final double DOT0_SIZE=3.5;
   
   public BufferedImage render(){
     int 
@@ -60,22 +59,21 @@ public class Renderer000 implements Renderer{
     graphics.setPaint(Color.white);
     graphics.fillRect(0,0,w,h);
     graphics.setTransform(t);
-    
     //
-    Path2D path;
-    graphics.setPaint(Color.black);
-    graphics.setStroke(createStroke());
-    for(MShape shape:test.composition.getShapes()){
-      path=getShapePath(shape);
-      graphics.draw(path);}
-    
-    //TEST render BoundedDeformableKGrid
     DPoint p;
     Ellipse2D e=new Ellipse2D.Double();
     double dot0size=DOT0_SIZE/t.getScaleX();
     BoundedDeformableKGrid g;
     MPolygon root=test.composition.getRoot();
-    g=new BoundedDeformableKGrid(root,5);
+    g=new BoundedDeformableKGrid(root,3);
+    //polygon path
+    Path2D path;
+    graphics.setPaint(Color.magenta);
+    graphics.setStroke(createStroke(0.015));
+    path=getShapePath(root);
+    graphics.draw(path);
+    
+    //TEST render BoundedDeformableKGrid
     //edge vertices
     System.out.println("edgevertices count = "+g.edgevertices.size());
     graphics.setPaint(Color.red);
@@ -92,9 +90,33 @@ public class Renderer000 implements Renderer{
       if(p!=null){
         e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
         graphics.fill(e);}}
+    //all strands
+    KVertex v0,v1;
+    for(List<KVertex> strand:g.strands){
+      v0=strand.get(0);
+      v1=strand.get(strand.size()-1);
+      graphics.setPaint(Color.black);
+      graphics.draw(getLinePath(g.getPoint(v0),g.getPoint(v1)));}
     //random strand
     List<KVertex> strand=g.strands.get(rnd.nextInt(g.strands.size()));
-    System.out.println("random strand size = "+strand.size());
+    System.out.println("RANDOM STRAND");
+    System.out.println("size="+strand.size());
+    v0=strand.get(0);
+    v1=strand.get(strand.size()-1);
+    System.out.println("v0="+v0);
+    System.out.println("v1="+v1);
+    int 
+      dirv0v1=v0.getDirection(v1),
+      dirprior=v0.getDirection(g.getEdgeAdjacentPrior(v0)),
+      dirnext=v0.getDirection(g.getEdgeAdjacentNext(v0));
+    System.out.println("v0>v1 dir = "+v0.getDirection(v1));
+    System.out.println("v0>prior dir = "+dirprior);
+    System.out.println("v0>next dir = "+dirnext);
+    System.out.println("is between right = "+GK.isBetweenRight(dirprior,dirnext,dirv0v1));
+    graphics.setStroke(createStroke(0.05));
+    graphics.setPaint(Color.orange);
+    
+    graphics.draw(getLinePath(g.getPoint(v0),g.getPoint(v1)));
     graphics.setPaint(Color.blue);
     for(KVertex v:strand){
       p=g.getPoint(v);
@@ -102,10 +124,15 @@ public class Renderer000 implements Renderer{
         e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
         graphics.fill(e);
       }else{
-        System.out.println("NULL POINT AT PRINT RANDOM STRAND"); 
-      }}
+        System.out.println("NULL POINT AT PRINT RANDOM STRAND"); }}
     //
     return image;}
+  
+  private Path2D getLinePath(DPoint p0,DPoint p1){
+    Path2D.Double path=new Path2D.Double();
+    path.moveTo(p0.x,p0.y);
+    path.lineTo(p1.x,p1.y);
+    return path;}
   
   private Path2D getShapePath(MShape shape){
     Path2D path;

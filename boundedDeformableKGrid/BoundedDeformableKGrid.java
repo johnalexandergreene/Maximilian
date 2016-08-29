@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.fleen.geom_2D.DPoint;
 import org.fleen.geom_2D.DPolygon;
+import org.fleen.geom_Kisrhombille.GK;
 import org.fleen.geom_Kisrhombille.KPolygon;
 import org.fleen.geom_Kisrhombille.KVertex;
 import org.fleen.maximilian.MPolygon;
@@ -24,7 +25,6 @@ public class BoundedDeformableKGrid{
    */
   
   public BoundedDeformableKGrid(MShape shape,int density){
-    System.out.println("density ="+density);
     if(shape instanceof MPolygon)
       init((MPolygon)shape,density);
     else
@@ -234,31 +234,29 @@ public class BoundedDeformableKGrid{
   
   private InteriorStrand getInteriorStrand(CoaxialPair pair){
     InteriorStrand strand=new InteriorStrand();
-    int dir=pair.v0.getDirection(pair.v1);
-    KVertex v=pair.v0;
-    //do the second vertex in the sequence. test it
-    strand.add(v);
-    v=v.getVertex_Adjacent(dir);
-    //if the second vertex in the sequence is either of the edge vertex 
-    //polygon adjacents for pair.v0 then we are just running along the edge of the polygon 
-    //with this strand. The strand fails 
-    if(v.equals(getEdgeAdjacentPrior(pair.v0))||v.equals(getEdgeAdjacentNext(pair.v0)))
-      return null;
-    //if the second vertex in the sequence is the second vertex in the pair then 
-    //we're done. We have a 2-vertex strand
-    if(v.equals(pair.v1)){
-      return null;}
-    //ok, the second vertex checks out ok so far. continue the sequence
-    //if we hit and edge vertex before we hit pair.v1 then the strand fails
+    KVertex 
+      v=pair.v0,
+      v0prior=getEdgeAdjacentPrior(v),
+      v0next=getEdgeAdjacentNext(v);
+    int 
+      dir=pair.v0.getDirection(pair.v1),
+      dirv0prior=v.getDirection(v0prior),
+      dirv0next=v.getDirection(v0next);
+    //check the direction that the strand is going
+    //it's gotta be going between the directions of its adjacents
+    //that is, inward
+    //if it isn't then this strand fails
+    //TODO this should probably flip for cw/ccw
+    if(!GK.isBetweenRight(dirv0prior,dirv0next,dir))return null; 
+    //if we hit an edge vertex before we hit pair.v1 then the strand fails
     while(!v.equals(pair.v1)){
-      if(edgevertices.contains(v))
+      if(v!=pair.v0&&edgevertices.contains(v))
         return null;
       strand.add(v);
       v=v.getVertex_Adjacent(dir);}
     //we have a strand
     strand.add(pair.v1);
-    System.out.println("strand size = "+strand.size());
-    //if the strand is of length 2 then it is composed of only end points and does not cross the interior and is therefor invalid
+    //if the strand is of length 2 then fail
     if(strand.size()==2)return null;
     //
     return strand;}
@@ -305,7 +303,6 @@ public class BoundedDeformableKGrid{
       edgevertexpointdefs.put(kvertex,new KVertexPointDefinition(dpoint));}}
   
   public void createEdgeVerticesAndDoPointDefsForMids(KPolygon kpolygon){
-    System.out.println("kpolygon size ="+kpolygon.size());
     edgevertices=new KPolygon();
     int s=kpolygon.size(),i0,i1;
     KVertex c0,c1,v;
@@ -381,7 +378,7 @@ public class BoundedDeformableKGrid{
     int s=edgevertices.size(),iprior,inext;
     KVertex v,vprior,vnext;
     for(int i=0;i<s;i++){
-      iprior=s-1;
+      iprior=i-1;
       if(iprior==-1)iprior=s-1;
       inext=i+1;
       if(inext==s)inext=0;
@@ -390,22 +387,18 @@ public class BoundedDeformableKGrid{
       vprior=edgevertices.get(iprior);
       vnext=edgevertices.get(inext);
       prioradjacent.put(v,vprior);
-      nextadjacent.put(vnext,vnext);}}
+      nextadjacent.put(v,vnext);}}
   
-  private KVertex getEdgeAdjacentPrior(KVertex v){
+  public KVertex getEdgeAdjacentPrior(KVertex v){
     KVertex p=prioradjacent.get(v);
     if(p==null)
       throw new IllegalArgumentException("NULL PRIOR");
     return p;}
   
-  private KVertex getEdgeAdjacentNext(KVertex v){
+  public KVertex getEdgeAdjacentNext(KVertex v){
     KVertex n=nextadjacent.get(v);
     if(n==null)
       throw new IllegalArgumentException("NULL NEXT");
     return n;}
   
-  
-    
-  
-
 }
