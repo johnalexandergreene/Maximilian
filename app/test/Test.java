@@ -60,11 +60,11 @@ public class Test{
    * ################################
    */
   
-//  private static final String FGRAMMAR_FILE_PATH=
-//      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_06_05/g000_hexroot_kindasimple";
-  
   private static final String FGRAMMAR_FILE_PATH=
-    "/home/john/projects/code/Maximilian/src/org/fleen/maximilian/test_grammar_roothorse";
+      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_06_05/g000_hexroot_kindasimple";
+  
+//  private static final String FGRAMMAR_FILE_PATH=
+//    "/home/john/projects/code/Maximilian/src/org/fleen/maximilian/test_grammar_roothorse";
   
 //  private static final String FGRAMMAR_FILE_PATH=
 //      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_06_16/g001_simpletriangles_hexroot";

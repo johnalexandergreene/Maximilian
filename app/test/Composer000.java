@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.fleen.forsythia.grammar.Jig;
+import org.fleen.geom_2D.DPoint;
 import org.fleen.maximilian.MComposition;
 import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MPolygon;
@@ -25,6 +26,18 @@ public class Composer000 implements Composer{
     composition.initTree();
     for(int i=0;i<3;i++)
       cultivate(composition);
+    
+    
+    //skew root for deformity test
+    MPolygon root=composition.getRoot();
+    DPoint a=root.dpolygon.get(0);
+    a.x+=0.3;
+    a.y+=0.3;
+//    a=root.dpolygon.get(1);
+//    a.x+=0.5;
+//    a.y+=2;
+    
+    
     return composition;}
   
   private void cultivate(MComposition composition){

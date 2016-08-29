@@ -92,39 +92,39 @@ public class Renderer000 implements Renderer{
         graphics.fill(e);}}
     //all strands
     KVertex v0,v1;
-    for(List<KVertex> strand:g.strands){
-      v0=strand.get(0);
-      v1=strand.get(strand.size()-1);
-      graphics.setPaint(Color.black);
-      graphics.draw(getLinePath(g.getPoint(v0),g.getPoint(v1)));}
+//    for(List<KVertex> strand:g.strands){
+//      v0=strand.get(0);
+//      v1=strand.get(strand.size()-1);
+//      graphics.setPaint(Color.black);
+//      graphics.draw(getLinePath(g.getPoint(v0),g.getPoint(v1)));}
     //random strand
-    List<KVertex> strand=g.strands.get(rnd.nextInt(g.strands.size()));
-    System.out.println("RANDOM STRAND");
-    System.out.println("size="+strand.size());
-    v0=strand.get(0);
-    v1=strand.get(strand.size()-1);
-    System.out.println("v0="+v0);
-    System.out.println("v1="+v1);
-    int 
-      dirv0v1=v0.getDirection(v1),
-      dirprior=v0.getDirection(g.getEdgeAdjacentPrior(v0)),
-      dirnext=v0.getDirection(g.getEdgeAdjacentNext(v0));
-    System.out.println("v0>v1 dir = "+v0.getDirection(v1));
-    System.out.println("v0>prior dir = "+dirprior);
-    System.out.println("v0>next dir = "+dirnext);
-    System.out.println("is between right = "+GK.isBetweenRight(dirprior,dirnext,dirv0v1));
-    graphics.setStroke(createStroke(0.05));
-    graphics.setPaint(Color.orange);
-    
-    graphics.draw(getLinePath(g.getPoint(v0),g.getPoint(v1)));
-    graphics.setPaint(Color.blue);
-    for(KVertex v:strand){
-      p=g.getPoint(v);
-      if(p!=null){
-        e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
-        graphics.fill(e);
-      }else{
-        System.out.println("NULL POINT AT PRINT RANDOM STRAND"); }}
+//    List<KVertex> strand=g.strands.get(rnd.nextInt(g.strands.size()));
+//    System.out.println("RANDOM STRAND");
+//    System.out.println("size="+strand.size());
+//    v0=strand.get(0);
+//    v1=strand.get(strand.size()-1);
+//    System.out.println("v0="+v0);
+//    System.out.println("v1="+v1);
+//    int 
+//      dirv0v1=v0.getDirection(v1),
+//      dirprior=v0.getDirection(g.getEdgeAdjacentPrior(v0)),
+//      dirnext=v0.getDirection(g.getEdgeAdjacentNext(v0));
+//    System.out.println("v0>v1 dir = "+v0.getDirection(v1));
+//    System.out.println("v0>prior dir = "+dirprior);
+//    System.out.println("v0>next dir = "+dirnext);
+//    System.out.println("is between right = "+GK.isBetweenRight(dirprior,dirnext,dirv0v1));
+//    graphics.setStroke(createStroke(0.05));
+//    graphics.setPaint(Color.orange);
+//    //line
+//    graphics.draw(getLinePath(g.getPoint(v0),g.getPoint(v1)));
+//    graphics.setPaint(Color.blue);
+//    for(KVertex v:strand){
+//      p=g.getPoint(v);
+//      if(p!=null){
+//        e.setFrameFromCenter(p.x,p.y,p.x-dot0size,p.y-dot0size);
+//        graphics.fill(e);
+//      }else{
+//        System.out.println("NULL POINT AT PRINT RANDOM STRAND"); }}
     //
     return image;}
   
