@@ -57,11 +57,11 @@ public class Renderer001 implements Renderer{
     graphics.setTransform(t);
     //shape edges
     Path2D path;
-    graphics.setPaint(Color.magenta);
+    graphics.setPaint(Color.black);
     graphics.setStroke(createStroke(0.015));
     for(MShape ms:test.composition.getShapes()){
       path=getShapePath(ms);
-      graphics.draw(path);}
+      if(path!=null)graphics.draw(path);}
     //
     return image;}
   
@@ -75,12 +75,16 @@ public class Renderer001 implements Renderer{
   
   private Path2D getPolygonPath(MPolygon polygon){
     Path2D.Double path=new Path2D.Double();
-    DPoint p=polygon.dpolygon.get(0);
-    path.moveTo(p.x,p.y);
-    for(int i=1;i<polygon.dpolygon.size();i++){
-      p=polygon.dpolygon.get(i);
-      path.lineTo(p.x,p.y);}
-    path.closePath();
+    try{
+      DPoint p=polygon.dpolygon.get(0);
+      path.moveTo(p.x,p.y);
+      for(int i=1;i<polygon.dpolygon.size();i++){
+        p=polygon.dpolygon.get(i);
+        path.lineTo(p.x,p.y);}
+      path.closePath();
+    }catch(Exception x){
+      x.printStackTrace();
+      return null;}
     return path;}
   
   private Path2D getYardPath(MYard yard){

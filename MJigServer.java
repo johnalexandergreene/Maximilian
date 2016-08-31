@@ -1,6 +1,10 @@
 package org.fleen.maximilian;
 
 /*
+ * This is the composition logic
+ * composer refers to this
+ * or something
+ * 
  * Given a shape, get a jig 
  * The selection logic depends on the implementation
  * 

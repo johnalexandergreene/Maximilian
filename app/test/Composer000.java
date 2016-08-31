@@ -19,13 +19,14 @@ public class Composer000 implements Composer{
     this.test=test;
   }
   
+  MComposition composition;
+  
   public MComposition compose(){
     
-    MComposition composition=new MComposition();
+    composition=new MComposition();
     composition.setForsythiaGrammar(test.getForsythiaGrammar());
     composition.initTree();
-    for(int i=0;i<2;i++)
-      cultivate(composition);
+    
     
     
 //    //skew root for deformity test
@@ -37,8 +38,14 @@ public class Composer000 implements Composer{
 ////    a.x+=0.5;
 ////    a.y+=2;
     
+    try{
+      for(int i=0;i<2;i++)
+        cultivate(composition);
+    }catch(Exception x){}
     
     return composition;}
+  
+
   
   private void cultivate(MComposition composition){
     List<MShape> 
@@ -55,8 +62,12 @@ public class Composer000 implements Composer{
   
   private MJig getJig(MComposition composition,MShape shape){
     MJig jig=null;
-    if(shape instanceof MPolygon)
-      jig=getSplitter(composition,(MPolygon)shape);
+    if(shape instanceof MPolygon){
+      if(rnd.nextBoolean())
+        jig=getSplitter(composition,(MPolygon)shape);
+      else
+        jig=new MBoiler();
+    }
     return jig;}
   
   Random rnd=new Random();
