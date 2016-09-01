@@ -59,8 +59,12 @@ public class Renderer001 implements Renderer{
     Path2D path;
     graphics.setPaint(Color.black);
     graphics.setStroke(createStroke(0.015));
-    for(MShape ms:test.composition.getShapes()){
+    List<MShape> shapes=test.composition.getShapes();
+    System.out.println("shapecount="+shapes.size());
+    for(MShape ms:shapes){
+      System.out.println("rendering shape");
       path=getShapePath(ms);
+      System.out.println("path="+path);
       if(path!=null)graphics.draw(path);}
     //
     return image;}

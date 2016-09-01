@@ -39,7 +39,7 @@ public class Composer000 implements Composer{
 ////    a.y+=2;
     
     try{
-      for(int i=0;i<2;i++)
+      for(int i=0;i<3;i++)
         cultivate(composition);
     }catch(Exception x){}
     
@@ -48,6 +48,8 @@ public class Composer000 implements Composer{
 
   
   private void cultivate(MComposition composition){
+    System.out.println("===cultivating 1 cycle===");
+    System.out.println("pre shape count : "+composition.getShapes().size());
     List<MShape> 
       shapes=composition.getLeafShapes(),
       newshapes;
@@ -58,7 +60,9 @@ public class Composer000 implements Composer{
       if(jig!=null){
         newshapes=jig.createShapes(shape);
         System.out.println("created shapes : "+newshapes.size());
-        }}}
+        }}
+    System.out.println("post shape count : "+composition.getShapes().size());
+    System.out.println("+++++++++++++++++++++");}
   
   private MJig getJig(MComposition composition,MShape shape){
     MJig jig=null;
