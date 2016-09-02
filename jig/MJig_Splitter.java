@@ -1,4 +1,4 @@
-package org.fleen.maximilian.app.test;
+package org.fleen.maximilian.jig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,12 +14,13 @@ import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MMetagon;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
+import org.fleen.maximilian.app.test.Util;
 import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
 
-public class MSplitter implements MJig{
+public class MJig_Splitter implements MJig{
   
   //param is forsythia jig
-  MSplitter(Jig fjig){
+  public MJig_Splitter(Jig fjig){
     init(fjig);
   }
 
@@ -29,29 +30,14 @@ public class MSplitter implements MJig{
   
   Jig fjig;
   
-  
   public List<MShape> createShapes(MShape target){
-    BoundedDeformableKGrid grid=new BoundedDeformableKGrid(target,fjig.getGridDensity());
     List<MShape> shapes=new ArrayList<MShape>();
-    MPolygon mp;
-    DPolygon dp;
-    MMetagon mm;
-    for(JigSection s:fjig.sections){
-      mm=new MMetagon(s.productmetagon);
-      dp=getDPolygon(mm,s.productanchor,grid);
-      mp=new MPolygon(dp,mm,s.productchorusindex,Arrays.asList(s.tags.getTags()));
-      mp.setParent(target);
-      shapes.add(mp);}
+    List<MPolygon> shards=Util.split((MPolygon)target,fjig);
+    shapes.addAll(shards);
     target.setChildren(shapes);
+    for(MShape shape:shapes)
+      shape.setParent(target);
     return shapes;}
-  
-  DPolygon getDPolygon(MMetagon mm,KAnchor anchor,BoundedDeformableKGrid grid){
-    KPolygon p=mm.getPolygon(anchor.v0,anchor.v1,anchor.twist);
-    DPolygon dp=new DPolygon();
-    for(KVertex v:p)
-      dp.add(grid.getPoint(v));
-    return dp;
-  }
 
   @Override
   public double getDetailSizePreview(MShape target){

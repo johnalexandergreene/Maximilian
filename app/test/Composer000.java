@@ -10,6 +10,8 @@ import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
+import org.fleen.maximilian.jig.MJig_Boiler;
+import org.fleen.maximilian.jig.MJig_Splitter;
 
 public class Composer000 implements Composer{
   
@@ -70,7 +72,7 @@ public class Composer000 implements Composer{
       if(rnd.nextBoolean())
         jig=getSplitter(composition,(MPolygon)shape);
       else
-        jig=new MBoiler();
+        jig=new MJig_Boiler();
     }
     return jig;}
   
@@ -80,7 +82,7 @@ public class Composer000 implements Composer{
     List<Jig> a=composition.getForsythiaGrammar().getJigs(polygon.mmetagon);
     if(a.isEmpty())return null;
     Jig fjig=a.get(rnd.nextInt(a.size()));
-    return new MSplitter(fjig);//TODO we will create these all at once at jig server init
+    return new MJig_Splitter(fjig);//TODO we will create these all at once at jig server init
     
     
   }

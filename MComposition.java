@@ -95,7 +95,7 @@ public class MComposition implements Maximilian{
    * if the jig server is null then init it to an instance of MJigServer_Basic
    */
   public MJigServer getJigServer(){
-    if(jigserver==null)jigserver=new MJigServer_Basic();
+//    if(jigserver==null)jigserver=new MJigServer_Basic();
     return jigserver;}
   
   /*

@@ -1,4 +1,4 @@
-package org.fleen.maximilian.app.test;
+package org.fleen.maximilian.jig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +13,7 @@ import org.fleen.maximilian.MMetagon;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.MYard;
+import org.fleen.maximilian.app.test.Util;
 
 /*
  * copy the target 
@@ -20,7 +21,7 @@ import org.fleen.maximilian.MYard;
  * squeeze it, return it
  * use the same metagon
  */
-public class MBoiler implements MJig{
+public class MJig_Boiler implements MJig{
 
   
   private static final double BOILSPAN=0.07;
@@ -32,7 +33,7 @@ public class MBoiler implements MJig{
     MMetagon innermpolygonmetagon=mptarget.mmetagon;//metagons are immutable
     DPolygon innermpolygondpolygon=(DPolygon)mptarget.dpolygon.clone();
     MPolygon innermpolygon=new MPolygon(innermpolygondpolygon,innermpolygonmetagon,0,new ArrayList<String>());
-    shrink(innermpolygondpolygon);
+    Util.shrink(innermpolygondpolygon,BOILSPAN);
     innermpolygon.setParent(target);
     //create yard
     MYard yard=new MYard(Arrays.asList(new MPolygon[]{(MPolygon)target,innermpolygon}),0,new ArrayList<String>());
@@ -44,40 +45,10 @@ public class MBoiler implements MJig{
     target.setChildren(newshapes);
     //
     return newshapes;}
-  
-  //TODO clean up
-  private void shrink(DPolygon dp){
-    boolean polygonisclockwise=dp.getTwist();
-    int s=dp.size(),iprior,inext;
-    List<DVector> vectors=new ArrayList<DVector>(s);
-    DPoint p;
-    DVector v;
-    for(int i=0;i<s;i++){
-      iprior=i-1;
-      if(iprior==-1)iprior=s-1;
-      inext=i+1;
-      if(inext==s)inext=0;
-      vectors.add(getVector(dp.get(iprior),dp.get(i),dp.get(inext),BOILSPAN,polygonisclockwise));}
-    for(int i=0;i<s;i++){
-      p=dp.get(i);
-      v=vectors.get(i);
-      p.applyVector(v);}}
-  
-  private DVector getVector(DPoint p0,DPoint p1,DPoint p2,double span,boolean polygonisclockwise){
-    double  
-      dir=GD.getDirection_3Points(p0.x,p0.y,p1.x,p1.y,p2.x,p2.y),
-      angle,mag;
-    if(polygonisclockwise){
-      angle=GD.getAngle_3Points(p0.x,p0.y,p1.x,p1.y,p2.x,p2.y);
-      mag=BOILSPAN/(GD.sin(angle/2));
-    }else{
-      angle=GD.getAngle_3Points(p2.x,p2.y,p1.x,p1.y,p0.x,p0.y);
-      mag=-BOILSPAN/(GD.sin(angle/2));//TODO this is weird. I dunno why we gotta do neg. Leave it for now.
-    }
-    
-    return new DVector(dir,mag);}
 
-  @Override
+
+  //TODO
+  //also check and constrain distortion
   public double getDetailSizePreview(MShape target){
     // TODO Auto-generated method stub
     return 0;
