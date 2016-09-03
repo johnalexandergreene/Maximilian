@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Random;
 
 import org.fleen.forsythia.grammar.Jig;
-import org.fleen.geom_2D.DPoint;
 import org.fleen.maximilian.MComposition;
 import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
-import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
+import org.fleen.maximilian.MYard;
 import org.fleen.maximilian.jig.MJig_Boiler;
+import org.fleen.maximilian.jig.MJig_Crusher;
 import org.fleen.maximilian.jig.MJig_Splitter;
 
 public class Composer000 implements Composer{
@@ -41,7 +41,7 @@ public class Composer000 implements Composer{
 ////    a.y+=2;
     
     try{
-      for(int i=0;i<3;i++)
+      for(int i=0;i<5;i++)
         cultivate(composition);
     }catch(Exception x){}
     
@@ -67,13 +67,15 @@ public class Composer000 implements Composer{
     System.out.println("+++++++++++++++++++++");}
   
   private MJig getJig(MComposition composition,MShape shape){
+    if(shape instanceof MYard)return null;
     MJig jig=null;
-    if(shape instanceof MPolygon){
-      if(rnd.nextBoolean())
-        jig=getSplitter(composition,(MPolygon)shape);
-      else
-        jig=new MJig_Boiler();
-    }
+    int r=rnd.nextInt(3);
+    if(r==0)
+      jig=new MJig_Boiler();
+    else if(r==1)
+      jig=getSplitter(composition,(MPolygon)shape);
+    else
+      jig=getCrusher(composition,(MPolygon)shape);
     return jig;}
   
   Random rnd=new Random();
@@ -83,8 +85,13 @@ public class Composer000 implements Composer{
     if(a.isEmpty())return null;
     Jig fjig=a.get(rnd.nextInt(a.size()));
     return new MJig_Splitter(fjig);//TODO we will create these all at once at jig server init
-    
-    
+    }
+  
+  private MJig getCrusher(MComposition composition,MPolygon polygon){
+    List<Jig> a=composition.getForsythiaGrammar().getJigs(polygon.mmetagon);
+    if(a.isEmpty())return null;
+    Jig fjig=a.get(rnd.nextInt(a.size()));
+    return new MJig_Crusher(fjig);//TODO we will create these all at once at jig server init
   }
 
 }

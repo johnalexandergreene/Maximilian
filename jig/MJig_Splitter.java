@@ -14,7 +14,6 @@ import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MMetagon;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
-import org.fleen.maximilian.app.test.Util;
 import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
 
 public class MJig_Splitter implements MJig{

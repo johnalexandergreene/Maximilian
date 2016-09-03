@@ -1,5 +1,6 @@
 package org.fleen.maximilian;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,13 @@ public class MPolygon extends MShape{
   
   public MPolygon(DPolygon dpolygon,MMetagon mmetagon,int chorusindex,List<String> tags){
     super(chorusindex,tags);
-    this.dpolygon=dpolygon;
+    this.dpolygon=new DPolygon(dpolygon);
+    this.mmetagon=mmetagon;}
+  
+  //for mpolygon geometry manipulation stuff in jig or whatever
+  public MPolygon(DPolygon dpolygon,MMetagon mmetagon){
+    super(0,new ArrayList<String>(0));
+    this.dpolygon=new DPolygon(dpolygon);
     this.mmetagon=mmetagon;}
   
   public MPolygon(MMetagon mmetagon){

@@ -13,7 +13,6 @@ import org.fleen.maximilian.MMetagon;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.MYard;
-import org.fleen.maximilian.app.test.Util;
 
 /*
  * copy the target 
@@ -24,7 +23,8 @@ import org.fleen.maximilian.app.test.Util;
 public class MJig_Boiler implements MJig{
 
   
-  private static final double BOILSPAN=0.07;
+  private static final double BOILSPAN=0.04;//this will be one of 2 or 3 (think small, med, large)
+  //selected at random at jig creation time, specified in composition constructor, or jigserver if we are doing that
   
   public List<MShape> createShapes(MShape target){
     if(target instanceof MYard)return null;

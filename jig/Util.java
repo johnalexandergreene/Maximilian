@@ -1,4 +1,4 @@
-package org.fleen.maximilian.app.test;
+package org.fleen.maximilian.jig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,17 +13,20 @@ import org.fleen.geom_2D.GD;
 import org.fleen.geom_Kisrhombille.KAnchor;
 import org.fleen.geom_Kisrhombille.KPolygon;
 import org.fleen.geom_Kisrhombille.KVertex;
+import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MMetagon;
 import org.fleen.maximilian.MPolygon;
-import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
 
 /*
- * Maximillian jig utilities
+ * Maximillian jigging utilities
  * shared utilities used by Jigs
  * geometry and stuff
  */
 public class Util{
+  
+//  public static final List<MPolygon> split(MPolygon target,MJig jig){
+//    return split(target,jig);}
   
   /*
    * split an MPolygon with a Forsythia Operator (presently called Jig, soon to be called ForsythiaOperator or something)

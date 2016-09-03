@@ -34,6 +34,12 @@ public class MYard extends MShape{
     //create a new list to decouple param, for safety
     this.mpolygons=new ArrayList<MPolygon>(mpolygons);}
   
+  public MYard(MPolygon outer,List<MPolygon> inner,int chorusindex,List<String> tags){
+    super(MYARDCHORUSINDEX,tags);
+    this.mpolygons=new ArrayList<MPolygon>(inner.size()+1);
+    this.mpolygons.add(outer);
+    this.mpolygons.addAll(inner);}
+  
   /*
    * ################################
    * GEOMETRY

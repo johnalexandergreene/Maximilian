@@ -365,7 +365,7 @@ public class BoundedDeformableKGrid{
     DPoint p=getEdgePoint(v);
     if(p==null)
       p=getInteriorPoint(v);
-    return p;}
+    return new DPoint(p);}
   
   /*
    * ################################
