@@ -15,6 +15,12 @@ import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.MYard;
 
 /*
+ * 
+ * Create a donut of space along the perimeter of a polygon
+ * 
+ * the yard is tagged "donut"
+ * the inner polygon is tagged "egg"
+ * 
  * copy the target 
  *   Must be MPolygon
  * squeeze it, return it
@@ -29,19 +35,20 @@ public class MJig_Boiler implements MJig{
   public List<MShape> createShapes(MShape target){
     if(target instanceof MYard)return null;
     MPolygon mptarget=(MPolygon)target;
-    //create inner polygon
-    MMetagon innermpolygonmetagon=mptarget.mmetagon;//metagons are immutable
-    DPolygon innermpolygondpolygon=(DPolygon)mptarget.dpolygon.clone();
-    MPolygon innermpolygon=new MPolygon(innermpolygondpolygon,innermpolygonmetagon,0,new ArrayList<String>());
-    Util.shrink(innermpolygondpolygon,BOILSPAN);
-    innermpolygon.setParent(target);
+    //create egg
+    MMetagon eggmetagon=mptarget.mmetagon;//metagons are immutable
+    DPolygon eggdpolygon=(DPolygon)mptarget.dpolygon.clone();
+    MPolygon egg=new MPolygon(eggdpolygon,eggmetagon,0,new ArrayList<String>());
+    Util.shrink(eggdpolygon,BOILSPAN);
+    egg.setParent(target);
+    egg.addTags(Arrays.asList(new String[]{"egg"}));
     //create yard
-    MYard yard=new MYard(Arrays.asList(new MPolygon[]{(MPolygon)target,innermpolygon}),0,new ArrayList<String>());
+    MYard yard=new MYard(Arrays.asList(new MPolygon[]{(MPolygon)target,egg}),0,new ArrayList<String>());
     yard.setParent(target);
     //
     List<MShape> newshapes=new ArrayList<MShape>(2);
     newshapes.add(yard);
-    newshapes.add(innermpolygon);
+    newshapes.add(egg);
     target.setChildren(newshapes);
     //
     return newshapes;}

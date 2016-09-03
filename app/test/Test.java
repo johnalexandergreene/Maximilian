@@ -113,7 +113,8 @@ public class Test{
    * ################################
    */
   
-  Renderer renderer=new Renderer001(this);
+//  Renderer renderer=new Renderer001(this);
+  Renderer renderer=new Renderer002_fill(this);
   BufferedImage image=null;
   
   private Graphics2D initImageForError(){

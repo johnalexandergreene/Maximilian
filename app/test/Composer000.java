@@ -1,6 +1,8 @@
 package org.fleen.maximilian.app.test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.fleen.forsythia.grammar.Jig;
@@ -8,6 +10,7 @@ import org.fleen.maximilian.MComposition;
 import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
+import org.fleen.maximilian.MShapeSignature;
 import org.fleen.maximilian.MYard;
 import org.fleen.maximilian.jig.MJig_Boiler;
 import org.fleen.maximilian.jig.MJig_Crusher;
@@ -57,6 +60,7 @@ public class Composer000 implements Composer{
       newshapes;
     MJig jig;
     for(MShape shape:shapes){
+      jigbysig=new HashMap<MShapeSignature,MJig>();
       jig=getJig(composition,shape);
       System.out.println("got jig : "+jig);
       if(jig!=null){
@@ -66,19 +70,29 @@ public class Composer000 implements Composer{
     System.out.println("post shape count : "+composition.getShapes().size());
     System.out.println("+++++++++++++++++++++");}
   
-  private MJig getJig(MComposition composition,MShape shape){
-    if(shape instanceof MYard)return null;
-    MJig jig=null;
-    int r=rnd.nextInt(3);
-    if(r==0)
-      jig=new MJig_Boiler();
-    else if(r==1)
-      jig=getSplitter(composition,(MPolygon)shape);
-    else
-      jig=getCrusher(composition,(MPolygon)shape);
-    return jig;}
+  Map<MShapeSignature,MJig> jigbysig;
   
   Random rnd=new Random();
+  
+  private MJig getJig(MComposition composition,MShape shape){
+    if(shape instanceof MYard)return null;//TODO some yard ops?
+    //try sig
+    MShapeSignature sig=shape.getSignature();
+    MJig jig=jigbysig.get(sig);
+    if(jig!=null)return jig;
+    //
+    int r;
+    //split eggs, boil or crush shards
+    if(shape.hasTag("egg")){
+      jig=getSplitter(composition,(MPolygon)shape);
+    }else{//shard
+      r=rnd.nextInt(2);
+      if(r==0)
+        jig=new MJig_Boiler();
+      else
+        jig=getCrusher(composition,(MPolygon)shape);}
+    jigbysig.put(sig,jig);
+    return jig;}
   
   private MJig getSplitter(MComposition composition,MPolygon polygon){
     List<Jig> a=composition.getForsythiaGrammar().getJigs(polygon.mmetagon);

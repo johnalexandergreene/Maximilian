@@ -16,6 +16,11 @@ import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
 
+/*
+ * A splitter splits a polygon into nore polygons, puzzlewise
+ * 
+ * the pieces are all tagged with "shard"
+ */
 public class MJig_Splitter implements MJig{
   
   //param is forsythia jig
@@ -34,8 +39,9 @@ public class MJig_Splitter implements MJig{
     List<MPolygon> shards=Util.split((MPolygon)target,fjig);
     shapes.addAll(shards);
     target.setChildren(shapes);
-    for(MShape shape:shapes)
-      shape.setParent(target);
+    for(MShape shape:shapes){
+      shape.addTags(Arrays.asList(new String[]{"shard"}));
+      shape.setParent(target);}
     return shapes;}
 
   @Override

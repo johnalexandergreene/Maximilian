@@ -47,7 +47,7 @@ public class MJig_Crusher implements MJig{
     //shrink the shards
     for(MPolygon shard:shards){
       Util.shrink(shard.dpolygon,CRUSHSPAN);
-      shard.addTags(Arrays.asList(new String[]{"shard"}));
+      shard.addTags(Arrays.asList(new String[]{"egg"}));
       shard.setParent(target);}
     //do the yard
     MYard yard=new MYard((MPolygon)target,shards,0,Arrays.asList(new String[]{"foam"}));
