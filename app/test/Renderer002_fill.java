@@ -5,21 +5,19 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.fleen.geom_2D.DPoint;
-import org.fleen.geom_Kisrhombille.GK;
-import org.fleen.geom_Kisrhombille.KVertex;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
+import org.fleen.maximilian.MShapeSignature;
 import org.fleen.maximilian.MYard;
-import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
-import org.fleen.maximilian.boundedDeformableKGrid.KVertexPointDefinition;
 
 public class Renderer002_fill implements Renderer{
   
@@ -49,9 +47,15 @@ public class Renderer002_fill implements Renderer{
   static final Color[] COLORS={new Color(255,0,0),new Color(0,0,0),new Color(255,255,255),new Color(222,222,222),new Color(255,255,0)};
   
   Random rnd=new Random();
+  Map<MShapeSignature,Color> colorbysig=new HashMap<MShapeSignature,Color>();
   
-  private Color getRandomColor(){
-    return COLORS[rnd.nextInt(COLORS.length)];}
+  private Color getRandomColor(MShape shape){
+    MShapeSignature sig=shape.getSignature();
+    Color c=colorbysig.get(sig);
+    if(c==null){
+      c=COLORS[rnd.nextInt(COLORS.length)];
+      colorbysig.put(sig,c);}
+    return c;}
   
   public BufferedImage render(){
     int 
@@ -67,18 +71,18 @@ public class Renderer002_fill implements Renderer{
     Path2D path;
     List<MShape> shapes=test.composition.getLeafShapes();
     for(MShape ms:shapes){
-      graphics.setPaint(getRandomColor());
+      graphics.setPaint(getRandomColor(ms));
       path=getShapePath(ms);
       if(path!=null)graphics.fill(path);}
     //stroke
-    graphics.setPaint(Color.black);
-    graphics.setStroke(createStroke(0.011));
-    shapes=test.composition.getShapes();
-    for(MShape ms:shapes){
-      System.out.println("rendering shape");
-      path=getShapePath(ms);
-      System.out.println("path="+path);
-      if(path!=null)graphics.draw(path);}
+//    graphics.setPaint(Color.black);
+//    graphics.setStroke(createStroke(0.011));
+//    shapes=test.composition.getShapes();
+//    for(MShape ms:shapes){
+//      System.out.println("rendering shape");
+//      path=getShapePath(ms);
+//      System.out.println("path="+path);
+//      if(path!=null)graphics.draw(path);}
     //
     return image;}
   

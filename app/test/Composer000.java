@@ -59,8 +59,8 @@ public class Composer000 implements Composer{
       shapes=composition.getLeafShapes(),
       newshapes;
     MJig jig;
+    jigbysig=new HashMap<MShapeSignature,MJig>();
     for(MShape shape:shapes){
-      jigbysig=new HashMap<MShapeSignature,MJig>();
       jig=getJig(composition,shape);
       System.out.println("got jig : "+jig);
       if(jig!=null){
@@ -91,6 +91,7 @@ public class Composer000 implements Composer{
         jig=new MJig_Boiler();
       else
         jig=getCrusher(composition,(MPolygon)shape);}
+    //
     jigbysig.put(sig,jig);
     return jig;}
   
