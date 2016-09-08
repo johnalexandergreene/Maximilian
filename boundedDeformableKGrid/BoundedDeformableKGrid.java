@@ -37,7 +37,8 @@ public class BoundedDeformableKGrid{
    */
   
   /*
-   * Create kpolygon at specified density using default everything
+   * Create kpolygon at specified density using default everything, from that derive relationships between corner vertices
+   * 
    * get the edge vertices
    * get the interior strands
    *   an interior strand is a sequence of vertices that extends from one 
@@ -56,12 +57,22 @@ public class BoundedDeformableKGrid{
    *   put all these real points on in a map keyed by kvertex
    */
   private void init(MPolygon mpolygon,int density){
+    //get the kpolygon from which we derive all involved kvertices and their relationships.
+    //but no actual 2d geometry
     boolean twist=mpolygon.dpolygon.getTwist();
+    twist=true;
     KPolygon kpolygon=mpolygon.mmetagon.getPolygon(density,twist);
+    
+    //TODO think this through again. twist isn't happening properly. When the kpolygon has negative twist the grid doesn't get flipped, or something
+    //maybe we don't even to deal with negative twist. We are just looking at kvertex relationships after all.
+    
+    
+    //specify points for corner vertices explicitly, 
+    //specify (noncorner) edge vertex points in terms of corner points
+    //specify interior vertex points in terms of edge points  
     doEdgeVertices(kpolygon,mpolygon.dpolygon);
-    initEdgeVertexAdjacents(); 
-    boolean polygonisclockwise=mpolygon.dpolygon.getTwist();
-    doInteriorVertices(polygonisclockwise);}
+    initEdgeVertexAdjacents();
+    doInteriorVertices(twist);}
   
   /*
    * ################################
@@ -361,10 +372,18 @@ public class BoundedDeformableKGrid{
    * ################################
    */
   
+  /*
+   * try to get the point from the edge
+   * if that fails then try the interior
+   * if both failed then the specified vertex is not within the domain of this grid, return null.
+   */
   public DPoint getPoint(KVertex v){
+    
     DPoint p=getEdgePoint(v);
     if(p==null)
       p=getInteriorPoint(v);
+    if(p==null){
+      return null;}
     return new DPoint(p);}
   
   /*

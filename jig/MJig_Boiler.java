@@ -33,11 +33,21 @@ public class MJig_Boiler implements MJig{
   //selected at random at jig creation time, specified in composition constructor, or jigserver if we are doing that
   
   public List<MShape> createShapes(MShape target){
+    if(target.hasBadGeometry())return null;//DEBUG
+    //
     if(target instanceof MYard)return null;
+    //
     MPolygon mptarget=(MPolygon)target;
     //create egg
     MMetagon eggmetagon=mptarget.mmetagon;//metagons are immutable
     DPolygon eggdpolygon=(DPolygon)mptarget.dpolygon.clone();
+    
+//    for(DPoint a:eggdpolygon){
+//      if(a==null){
+//        System.out.println("=== NULL POINT DETECTED ===+");  
+//        Thread.currentThread().getStackTrace();}}
+    
+    
     MPolygon egg=new MPolygon(eggdpolygon,eggmetagon,0,new ArrayList<String>());
     Util.shrink(eggdpolygon,BOILSPAN);
     egg.setParent(target);

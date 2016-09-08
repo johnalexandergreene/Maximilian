@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.fleen.geom_2D.DPoint;
 import org.fleen.geom_2D.DPolygon;
 
 /*
@@ -50,5 +51,11 @@ public class MPolygon extends MShape{
   
   public DPolygon getDPolygon(){
     return dpolygon;}
+  
+  public boolean hasBadGeometry(){
+    for(DPoint p:dpolygon)
+      if(p==null)
+        return true;
+    return false;}
   
 }

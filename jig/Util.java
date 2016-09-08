@@ -45,12 +45,34 @@ public class Util{
       shards.add(mpolygon);}
     return shards;}
   
-  private static final DPolygon getDPolygon(MMetagon mm,KAnchor anchor,BoundedDeformableKGrid grid){
-    KPolygon p=mm.getPolygon(anchor.v0,anchor.v1,anchor.twist);
-    DPolygon dp=new DPolygon();
-    for(KVertex v:p)
-      dp.add(grid.getPoint(v));
-    return dp;}
+  private static final DPolygon getDPolygon(MMetagon mmetagon,KAnchor anchor,BoundedDeformableKGrid grid){
+    
+    boolean twist=anchor.twist;
+    
+    KPolygon kpolygon=mmetagon.getPolygon(anchor.v0,anchor.v1,twist);
+    DPolygon dpolygon=new DPolygon();
+    DPoint dpoint;
+    int vertexindex=0;
+    for(KVertex v:kpolygon){
+      dpoint=grid.getPoint(v);
+      
+      //DEBUG
+      if(dpoint==null){
+        System.out.println("@@@--@@@ NULL DPOINT DETECTED @@@--@@@");
+        System.out.println("kvertex that returned null dpoint : "+v);
+        System.out.println("VERTEX INDEX : "+vertexindex);
+        System.out.println("kpolygon : "+kpolygon);
+        System.out.println("kpolygon size : "+kpolygon.size());
+        System.out.println("kanchor : "+anchor);
+        System.out.println("---------------------------------------------");
+//        throw new IllegalArgumentException();
+      }
+      
+      dpolygon.add(dpoint);
+      
+      vertexindex++;}//DEBUG
+    
+    return dpolygon;}
   
   /*
    * shrink a polygon by an even span all around

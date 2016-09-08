@@ -35,6 +35,7 @@ public class MJig_Splitter implements MJig{
   Jig fjig;
   
   public List<MShape> createShapes(MShape target){
+    if(target.hasBadGeometry())return null;//DEBUG
     List<MShape> shapes=new ArrayList<MShape>();
     List<MPolygon> shards=Util.split((MPolygon)target,fjig);
     shapes.addAll(shards);

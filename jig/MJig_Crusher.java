@@ -35,6 +35,8 @@ public class MJig_Crusher implements MJig{
     CRUSHSPAN=0.02;
 
   public List<MShape> createShapes(MShape target){
+    if(target.hasBadGeometry())return null;//DEBUG
+    //
     List<MShape> newshapes=new ArrayList<MShape>();
     MPolygon targetpolygon=(MPolygon)target;
     //get an inner polygon, squeezed in like boiling

@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,14 +76,34 @@ public class Renderer002_fill implements Renderer{
       path=getShapePath(ms);
       if(path!=null)graphics.fill(path);}
     //stroke
+    
+//    //separate good from bad
+//    shapes=test.composition.getShapes();
+//    List<MPolygon> 
+//      goodpolygons=new ArrayList<MPolygon>(),
+//      badpolygons=new ArrayList<MPolygon>();
+//    for(MShape shape:shapes){
+//      if(shape instanceof MPolygon)
+//        if(shape.hasBadGeometry())
+//          badpolygons.add((MPolygon)shape);
+//        else
+//          goodpolygons.add((MPolygon)shape);}
+//    
+//    //stroke good
 //    graphics.setPaint(Color.black);
 //    graphics.setStroke(createStroke(0.011));
-//    shapes=test.composition.getShapes();
-//    for(MShape ms:shapes){
-//      System.out.println("rendering shape");
-//      path=getShapePath(ms);
-//      System.out.println("path="+path);
-//      if(path!=null)graphics.draw(path);}
+//    for(MPolygon polygon:goodpolygons){
+//      path=getShapePath(polygon);
+//      graphics.draw(path);}
+//    
+//    //stroke bad
+//    graphics.setPaint(Color.red);
+//    graphics.setStroke(createStroke(0.022));
+//    for(MPolygon polygon:badpolygons){
+//      path=getBadGeometryPolygonPath(polygon);
+//      if(path!=null)
+//        graphics.draw(path);}
+    
     //
     return image;}
   
@@ -94,24 +115,59 @@ public class Renderer002_fill implements Renderer{
       path=getPolygonPath((MPolygon)shape);
     return path;}
   
+  private Path2D getBadGeometryShapePath(MShape shape){
+    Path2D path;
+    if(shape instanceof MYard)
+      path=getBadGeometryYardPath((MYard)shape);
+    else
+      path=getBadGeometryPolygonPath((MPolygon)shape);
+    return path;}
+  
   private Path2D getPolygonPath(MPolygon polygon){
     Path2D.Double path=new Path2D.Double();
     try{
       DPoint p=polygon.dpolygon.get(0);
-      path.moveTo(p.x,p.y);
+      if(p!=null)path.moveTo(p.x,p.y);
       for(int i=1;i<polygon.dpolygon.size();i++){
         p=polygon.dpolygon.get(i);
-        path.lineTo(p.x,p.y);}
+        if(p!=null)path.lineTo(p.x,p.y);}
       path.closePath();
     }catch(Exception x){
       x.printStackTrace();
       return null;}
     return path;}
   
-  private Path2D getYardPath(MYard yard){
+  private Path2D getBadGeometryPolygonPath(MPolygon polygon){
+    List<DPoint> goodpoints=new ArrayList<DPoint>();
+    System.out.println("-------------------------");
+    System.out.println("POLYGON BAD GEOMETRY");
+    for(DPoint p:polygon.dpolygon){
+      System.out.println(p);
+      if(p!=null)goodpoints.add(p);}
+    System.out.println("-------------------------");
+    if(goodpoints.isEmpty())return null;
+    //
     Path2D.Double path=new Path2D.Double();
-    for(MPolygon p:yard.mpolygons)
-      path.append(getPolygonPath(p),false);
+    DPoint p=goodpoints.get(0);
+    path.moveTo(p.x,p.y);
+    for(int i=1;i<goodpoints.size();i++){
+      p=goodpoints.get(i);
+      if(p!=null)path.lineTo(p.x,p.y);}
+      path.closePath();
+    return path;}
+  
+  private Path2D getYardPath(MYard yard){
+    Path2D.Double path=new Path2D.Double(),polygonpath;
+    for(MPolygon p:yard.mpolygons){
+      path.append(getPolygonPath(p),false);}
+    return path;}
+  
+  private Path2D getBadGeometryYardPath(MYard yard){
+    Path2D path=new Path2D.Double(),polygonpath;
+    for(MPolygon p:yard.mpolygons){
+      polygonpath=getBadGeometryPolygonPath(p);
+      if(polygonpath!=null)
+        path.append(polygonpath,false);}
     return path;}
   
   private static final double MARGIN=30;

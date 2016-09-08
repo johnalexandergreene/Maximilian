@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import org.fleen.geom_2D.DPoint;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
 import org.fleen.util.tree.TreeNode;
@@ -26,6 +27,18 @@ public abstract class MShape implements TreeNode,Serializable,Maximilian,Tagged{
   public MShape(int chorusindex,List<String> tags){
     this.chorusindex=chorusindex;
     addTags(tags);}
+  
+  /*
+   * ################################
+   * TREENODE
+   * ################################
+   */
+  
+  /*
+   * this is used in debug
+   * presently we test for null points in DGeometry 
+   */
+  public abstract boolean hasBadGeometry();
   
   /*
    * ################################

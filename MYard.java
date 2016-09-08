@@ -3,6 +3,7 @@ package org.fleen.maximilian;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.fleen.geom_2D.DPoint;
 import org.fleen.geom_2D.DYard;
 
 /*
@@ -53,6 +54,13 @@ public class MYard extends MShape{
     for(MPolygon p:mpolygons)
       y.add(p.dpolygon);
     return y;}
+  
+  public boolean hasBadGeometry(){
+    for(MPolygon mp:mpolygons)
+    for(DPoint p:mp.dpolygon)
+      if(p==null)
+        return true;
+    return false;}
   
   /*
    * ################################
