@@ -7,11 +7,11 @@ import java.util.Random;
 
 import org.fleen.forsythia.grammar.Jig;
 import org.fleen.maximilian.MComposition;
-import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.MShapeSignature;
 import org.fleen.maximilian.MYard;
+import org.fleen.maximilian.jig.MJig;
 import org.fleen.maximilian.jig.MJig_Boiler;
 import org.fleen.maximilian.jig.MJig_Crusher;
 import org.fleen.maximilian.jig.MJig_Splitter;
@@ -74,7 +74,7 @@ public class Composer000 implements Composer{
     if(shape.hasTag("egg")){
       jig=getSplitter(composition,(MPolygon)shape);
     }else{//shard
-      r=rnd.nextInt(2);
+      r=rnd.nextInt(4);
       if(r==0){
         jig=new MJig_Boiler();
       }else{

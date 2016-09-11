@@ -1,6 +1,8 @@
-package org.fleen.maximilian;
+package org.fleen.maximilian.jig;
 
 import java.util.List;
+
+import org.fleen.maximilian.MShape;
 
 
 /*
@@ -8,11 +10,10 @@ import java.util.List;
  * given an MShape, create new MShapes
  * like cutting a board into puzzle pieces
  * 
- * We use real 2d geometry for our shapes
- *   
- * The 2d shapes are based on kpolygons and kisrhombille geometry.
+ * Concrete classes implement this interface 
  * 
- * The jig is the operator in our shape grammar
+ * ID and filtering is done with tags
+ * 
  *    
  */
 public interface MJig{

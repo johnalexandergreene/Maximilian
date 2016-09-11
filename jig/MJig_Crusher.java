@@ -9,7 +9,6 @@ import java.util.Set;
 import org.fleen.forsythia.grammar.Jig;
 import org.fleen.geom_2D.DPoint;
 import org.fleen.geom_2D.DPolygon;
-import org.fleen.maximilian.MJig;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.MYard;
@@ -31,7 +30,7 @@ public class MJig_Crusher implements MJig{
   Jig fjig;
   
   private static final double 
-    BOILSPAN=0.03,
+    BOILSPAN=0.02,
     CRUSHSPAN=0.02;
 
   public List<MShape> createShapes(MShape target){

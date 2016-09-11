@@ -87,8 +87,11 @@ public class Test{
 //  private static final String FGRAMMAR_FILE_PATH=
 //  "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_05_maximilian_triangle_test/g001_one_triangle_twist_reversed";
   
+//  private static final String FGRAMMAR_FILE_PATH=
+//  "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_04_splitty_for_maximilian/g011_got_C_in_there";
+  
   private static final String FGRAMMAR_FILE_PATH=
-  "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_04_splitty_for_maximilian/g011_got_C_in_there";
+  "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_04_splitty_for_maximilian/g012_got_C_and_plus_in_there";
   
   public ForsythiaGrammar getForsythiaGrammar(){
     ForsythiaGrammar grammar=null;
