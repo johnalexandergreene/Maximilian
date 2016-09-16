@@ -32,7 +32,7 @@ public class Composer000 implements Composer{
     composition.setForsythiaGrammar(test.getForsythiaGrammar());
     composition.initTree();
     try{
-      for(int i=0;i<7;i++)
+      for(int i=0;i<4;i++)
         cultivate(composition);
     }catch(Exception x){
       x.printStackTrace();

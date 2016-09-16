@@ -1,7 +1,5 @@
 package org.fleen.maximilian.jig;
 
-import java.util.List;
-
 import org.fleen.maximilian.MShape;
 
 /*
@@ -10,13 +8,8 @@ import org.fleen.maximilian.MShape;
 public interface MJigServer{
   
   /*
-   * return jigs compatible with the specified shape
+   * return a jig compatible with the specified shape and with the specified tag/s
    */
-  List<MJig> getJigs(MShape shape);
-  
-  /*
-   * return jigs compatible with the specified shape and with the specified tag/s
-   */
-  List<MJig> getJigs(MShape shape,String... tag);
+  MJig getJig(MShape target,String[] tags);
   
 }

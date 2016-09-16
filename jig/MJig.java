@@ -3,6 +3,7 @@ package org.fleen.maximilian.jig;
 import java.util.List;
 
 import org.fleen.maximilian.MShape;
+import org.fleen.util.tag.Tagged;
 
 
 /*
@@ -16,7 +17,7 @@ import org.fleen.maximilian.MShape;
  * 
  *    
  */
-public interface MJig{
+public interface MJig extends Tagged{
   
   
   /*
@@ -53,5 +54,7 @@ public interface MJig{
    */
   
   double getDetailSizePreview(MShape target);
+  
+  double getDistortionLevelPreview(MShape target);
   
 }

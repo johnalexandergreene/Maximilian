@@ -30,8 +30,8 @@ public class MJig_Crusher implements MJig{
   Jig fjig;
   
   private static final double 
-    BOILSPAN=0.02,
-    CRUSHSPAN=0.02;
+    BOILSPAN=0.04,
+    CRUSHSPAN=0.04;
 
   public List<MShape> createShapes(MShape target){
     if(target.hasBadGeometry())return null;//DEBUG

@@ -26,9 +26,13 @@ import org.fleen.maximilian.MYard;
  * use the same metagon
  */
 public class MJig_Boiler implements MJig{
+  
+  MJig_Boiler(double boilspan){
+    
+  }
 
   
-  private static final double BOILSPAN=0.02;//this will be one of 2 or 3 (think small, med, large)
+  private static final double BOILSPAN=0.04;//this will be one of 2 or 3 (think small, med, large)
   //selected at random at jig creation time, specified in composition constructor, or jigserver if we are doing that
   
   public List<MShape> createShapes(MShape target){
