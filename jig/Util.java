@@ -1,7 +1,6 @@
 package org.fleen.maximilian.jig;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.fleen.forsythia.grammar.Jig;
@@ -40,7 +39,7 @@ public class Util{
     for(JigSection s:jig.sections){
       mmetagon=new MMetagon(s.productmetagon);
       dpolygon=getDPolygon(mmetagon,s.productanchor,grid);
-      mpolygon=new MPolygon(dpolygon,mmetagon,s.productchorusindex,Arrays.asList(s.tags.getTags()));
+      mpolygon=new MPolygon(dpolygon,mmetagon,s.productchorusindex,s.tags.getTags());
       shards.add(mpolygon);}
     return shards;}
   

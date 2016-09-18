@@ -1,5 +1,7 @@
 package org.fleen.maximilian;
 
+import java.util.List;
+
 import org.fleen.forsythia.grammar.FMetagon;
 import org.fleen.geom_Kisrhombille.KMetagon;
 import org.fleen.util.tag.TagManager;
@@ -31,17 +33,32 @@ public class MMetagon extends KMetagon implements Tagged,Maximilian{
   
   private TagManager tagmanager=new TagManager();
   
-  public String[] getTags(){
-    return tagmanager.getTags();}
-  
-  public void setTags(String[] tags){
+  public void setTags(String... tags){
     tagmanager.setTags(tags);}
   
-  public boolean hasTag(String tag){
-    return tagmanager.hasTag(tag);}
+  public void setTags(List<String> tags){
+    tagmanager.setTags(tags);}
   
-  public boolean hasTags(String...tags){
+  public List<String> getTags(){
+    return tagmanager.getTags();}
+  
+  public boolean hasTags(String... tags){
     return tagmanager.hasTags(tags);}
+  
+  public boolean hasTags(List<String> tags){
+    return tagmanager.hasTags(tags);}
+  
+  public void addTags(String... tags){
+    tagmanager.addTags(tags);}
+  
+  public void addTags(List<String> tags){
+    tagmanager.addTags(tags);}
+  
+  public void removeTags(String... tags){
+    tagmanager.removeTags(tags);}
+  
+  public void removeTags(List<String> tags){
+    tagmanager.removeTags(tags);}
   
   /*
    * ################################

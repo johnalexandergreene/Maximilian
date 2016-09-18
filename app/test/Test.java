@@ -60,38 +60,8 @@ public class Test{
    * ################################
    */
   
-//  private static final String FGRAMMAR_FILE_PATH=
-//      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_06_05/g000_hexroot_kindasimple";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//    "/home/john/projects/code/Maximilian/src/org/fleen/maximilian/test_grammar_roothorse";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_06_16/g001_simpletriangles_hexroot";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_06_03/g011_hexroot";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_02_09/g009";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_04_splitty_for_maximilian/g009";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//      "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_04_splitty_for_maximilian/g010";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//  "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_05_maximilian_triangle_test/g000";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//  "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_05_maximilian_triangle_test/g001_one_triangle_twist_reversed";
-  
-//  private static final String FGRAMMAR_FILE_PATH=
-//  "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_04_splitty_for_maximilian/g011_got_C_in_there";
-  
   private static final String FGRAMMAR_FILE_PATH=
-  "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_04_splitty_for_maximilian/g012_got_C_and_plus_in_there";
+    "/home/john/projects/code/Forsythia/src/org/fleen/forsythia/samples/grammars/2016_09_18/g000";
   
   public ForsythiaGrammar getForsythiaGrammar(){
     ForsythiaGrammar grammar=null;

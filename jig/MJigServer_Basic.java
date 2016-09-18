@@ -64,9 +64,15 @@ public class MJigServer_Basic implements MJigServer{
     if(jig!=null)return jig;
     //get all of the jigs for the shape
     List<MJig> jigs=getJigs(target);
+    
+    System.out.println("getjigs unfiltered size = "+jigs.size());
+    
     //filter by tags
     if(tags!=null&&tags.length!=0)
       jigs=filterByTags(jigs,tags);
+    
+    System.out.println("getjigs filtered by tags size = "+jigs.size());
+    
     if(jigs.isEmpty())return null;
     //filter by detail size
     jigs=filterByDetailSize(jigs,target);

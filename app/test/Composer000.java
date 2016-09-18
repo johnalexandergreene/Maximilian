@@ -56,7 +56,7 @@ public class Composer000 implements Composer{
     if(shape instanceof MYard){
       return null;}
     //split eggs; boil or crush shards
-    if(shape.hasTag("egg")){
+    if(shape.hasTags("egg")){
       jig=jigserver.getJig(shape,new String[]{"splitter"});
     }else{//shard
       int r=rnd.nextInt(4);

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.fleen.geom_2D.DPoint;
 import org.fleen.util.tag.TagManager;
 import org.fleen.util.tag.Tagged;
 import org.fleen.util.tree.TreeNode;
@@ -145,34 +144,34 @@ public abstract class MShape implements TreeNode,Serializable,Maximilian,Tagged{
   /*
    * ################################
    * TAGS
-   * 
-   * We can get tags from the jig that was used to create this geometry. 
-   *   In the case of a polygon that's a tag from a jig section. 
-   *   In the case of a yard we have tags denoting bagel and sponge
-   * 
-   * If this is a polygon we can also get tags from the polygon's metagon.
-   * 
-   * We can also add tags in the composition process. However we like.
-   * 
    * ################################
    */
   
   private TagManager tagmanager=new TagManager();
   
-  public String[] getTags(){
-    return tagmanager.getTags();}
-  
-  public void initTags(String[] tags){
+  public void setTags(String... tags){
     tagmanager.setTags(tags);}
   
-  public boolean hasTag(String tag){
-    return tagmanager.hasTag(tag);}
+  public void setTags(List<String> tags){
+    tagmanager.setTags(tags);}
   
-  public boolean hasTags(String...tags){
+  public List<String> getTags(){
+    return tagmanager.getTags();}
+  
+  public boolean hasTags(String... tags){
     return tagmanager.hasTags(tags);}
+  
+  public boolean hasTags(List<String> tags){
+    return tagmanager.hasTags(tags);}
+  
+  public void addTags(String... tags){
+    tagmanager.addTags(tags);}
   
   public void addTags(List<String> tags){
     tagmanager.addTags(tags);}
+  
+  public void removeTags(String... tags){
+    tagmanager.removeTags(tags);}
   
   public void removeTags(List<String> tags){
     tagmanager.removeTags(tags);}

@@ -105,7 +105,7 @@ public class MComposition implements Maximilian{
    * ################################
    */
   
-  public static final String ROOTTAGDEFAULT="root";
+  public static final String[] ROOT_TAGS={"root"};
   MPolygon root;
   
   /*
@@ -118,7 +118,7 @@ public class MComposition implements Maximilian{
     root=rootpolygon;}
 
   public void initTree(){
-    initTree(ROOTTAGDEFAULT);}
+    initTree(ROOT_TAGS);}
   
   /*
    * get the metagon with the specified tag/s and make a shape from that
