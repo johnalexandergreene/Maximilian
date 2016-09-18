@@ -1,53 +1,46 @@
 package org.fleen.maximilian.jig;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.fleen.forsythia.grammar.Jig;
-import org.fleen.forsythia.grammar.JigSection;
-import org.fleen.geom_2D.DPolygon;
-import org.fleen.geom_Kisrhombille.KAnchor;
-import org.fleen.geom_Kisrhombille.KPolygon;
-import org.fleen.geom_Kisrhombille.KVertex;
-import org.fleen.maximilian.MMetagon;
 import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
-import org.fleen.maximilian.boundedDeformableKGrid.BoundedDeformableKGrid;
 
 /*
  * A splitter splits a polygon into nore polygons, puzzlewise
  * 
  * the pieces are all tagged with "shard"
  */
-public class MJig_Splitter implements MJig{
+public class MJig_Splitter extends MJig_Abstract{
   
-  //param is forsythia jig
-  public MJig_Splitter(Jig fjig){
-    init(fjig);
-  }
-
-  private void init(Jig fjig){
-    this.fjig=fjig;
-  }
+  /*
+   * ################################
+   * CONSTRUCTOR
+   * ################################
+   */
   
-  Jig fjig;
+  public MJig_Splitter(Jig forsythiaoperator){
+    this.forsythiaoperator=forsythiaoperator;}
   
-  public List<MShape> createShapes(MShape target){
-    if(target.hasBadGeometry())return null;//DEBUG
-    List<MShape> shapes=new ArrayList<MShape>();
-    List<MPolygon> shards=Util.split((MPolygon)target,fjig);
-    shapes.addAll(shards);
-    target.setChildren(shapes);
-    for(MShape shape:shapes){
+  /*
+   * ################################
+   * FORSYTHIA OPERATOR
+   * ################################
+   */
+  
+  private Jig forsythiaoperator;
+  
+  /*
+   * ################################
+   * CREATE SHAPES
+   * ################################
+   */
+  
+  public CreatedShapes createShapes(MShape target){
+    List<MPolygon> shards=Util.split((MPolygon)target,forsythiaoperator);
+    for(MShape shape:shards)
       shape.addTags(Arrays.asList(new String[]{"shard"}));
-      shape.setParent(target);}
-    return shapes;}
-
-  @Override
-  public double getDetailSizePreview(MShape target){
-    // TODO Auto-generated method stub
-    return 0;
-  }
+    return new CreatedShapes(shards);}
 
 }

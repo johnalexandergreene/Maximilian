@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.fleen.geom_2D.DPoint;
 import org.fleen.geom_2D.DPolygon;
 
 /*
@@ -52,10 +51,33 @@ public class MPolygon extends MShape{
   public DPolygon getDPolygon(){
     return dpolygon;}
   
-  public boolean hasBadGeometry(){
-    for(DPoint p:dpolygon)
-      if(p==null)
-        return true;
-    return false;}
+  public double getDistance(MPolygon p){
+    return dpolygon.getDistance(p.dpolygon);}
+
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * DETAIL SIZE
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  private Double detailsize=null;
+  
+  public double getDetailSize(){
+    if(detailsize==null)initDetailSize();
+    return detailsize;}
+  
+  private void initDetailSize(){
+    detailsize=dpolygon.getIncircle().r*2;}
+
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * DISTORTION LEVEL
+   * TODO
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  public double getDistortionLevel(){
+    return 0;
+  }
   
 }

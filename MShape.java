@@ -30,15 +30,19 @@ public abstract class MShape implements TreeNode,Serializable,Maximilian,Tagged{
   
   /*
    * ################################
-   * TREENODE
+   * DETAIL SIZE
    * ################################
    */
   
+  public abstract double getDetailSize();
+  
   /*
-   * this is used in debug
-   * presently we test for null points in DGeometry 
+   * ################################
+   * DISTORTION LEVEL
+   * ################################
    */
-  public abstract boolean hasBadGeometry();
+  
+  public abstract double getDistortionLevel();
   
   /*
    * ################################

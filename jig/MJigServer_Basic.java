@@ -10,6 +10,7 @@ import org.fleen.forsythia.grammar.ForsythiaGrammar;
 import org.fleen.forsythia.grammar.Jig;
 import org.fleen.maximilian.MComposition;
 import org.fleen.maximilian.MMetagon;
+import org.fleen.maximilian.MPolygon;
 import org.fleen.maximilian.MShape;
 import org.fleen.maximilian.MShapeSignature;
 
@@ -62,7 +63,7 @@ public class MJigServer_Basic implements MJigServer{
     MJig jig=jigbysig.get(sig);
     if(jig!=null)return jig;
     //get all of the jigs for the shape
-    List<MJig> jigs=jigsbymetagon.get(target);
+    List<MJig> jigs=getJigs(target);
     //filter by tags
     if(tags!=null&&tags.length!=0)
       jigs=filterByTags(jigs,tags);
@@ -103,6 +104,15 @@ public class MJigServer_Basic implements MJigServer{
       if(jig.getDistortionLevelPreview(target)<distortionlimit)
         filteredjigs.add(jig);
     return filteredjigs;}
+  
+  /*
+   * return all jigs for the specified metagon
+   */
+  public List<MJig> getJigs(MShape shape){
+    List<MJig> jigs=new ArrayList<MJig>();
+    jigs.addAll(jigsbymetagon.get(((MPolygon)shape).mmetagon));//THIS JUST WORKS FOR POLYGONS PRESENTLY TODO
+    jigs.addAll(boilers);
+    return jigs;}
 
   /*
    * ################################
@@ -140,6 +150,7 @@ public class MJigServer_Basic implements MJigServer{
    * ################################
    */
   
+  List<MJig> boilers=new ArrayList<MJig>();
   Map<MMetagon,List<MJig>> jigsbymetagon=new HashMap<MMetagon,List<MJig>>();
   
   /*
@@ -149,23 +160,29 @@ public class MJigServer_Basic implements MJigServer{
    */
   
   private void initJigs(MComposition composition,ForsythiaGrammar fg){
+    //init universal jigs
+    initBoilers();
+    //init metagon-specific jigs
     List<MMetagon> metagons=composition.getMMetagons();
     List<Jig> fjigs;
     List<MJig> mjigs;
     for(MMetagon mmetagon:metagons){
       fjigs=fg.getJigs(mmetagon);
-      mjigs=getJigList(mmetagon);
+      mjigs=new ArrayList<MJig>();
+      jigsbymetagon.put(mmetagon,mjigs);
       initSplitters(fjigs,mjigs);
-      initBoilers(fjigs,mjigs);
       initCrushers(fjigs,mjigs);
       initGrinders(fjigs,mjigs);}}
-  
-  private List<MJig> getJigList(MMetagon metagon){
-    List<MJig> a=jigsbymetagon.get(metagon);
-    if(a==null){
-      a=new ArrayList<MJig>();
-      jigsbymetagon.put(metagon,a);}
-    return a;}
+
+  /*
+   * boilers are universal
+   * for each boiler gap value we create one boiler
+   */
+  private void initBoilers(){
+    MJig_Boiler boiler;
+    for(double gap:boilergaps){
+      boiler=new MJig_Boiler(gap);
+      boilers.add(boiler);}}
   
   private void initSplitters(List<Jig> fjigs,List<MJig> mjigs){
     MJig_Splitter splitter;
@@ -173,16 +190,13 @@ public class MJigServer_Basic implements MJigServer{
       splitter=new MJig_Splitter(fjig);
       mjigs.add(splitter);}}
   
-  //one boiler for all metagons?
-  private void initBoilers(List<Jig> fjigs,List<MJig> mjigs){
-    MJig_Boiler boiler;
-    for(Jig fjig:fjigs){
-      boiler=new MJig_Boiler(fjig,BOILERGAPLARGE);//TODO use both boilergaps
-      mjigs.add(boiler);}}
-  
   private void initCrushers(List<Jig> fjigs,List<MJig> mjigs){
-    
-  }
+    MJig_Crusher crusher;
+    for(Jig fjig:fjigs){
+      for(double gap0:crushergap0s){
+        for(double gap1:crushergap1s){
+          crusher=new MJig_Crusher(fjig,gap0,gap1);
+          mjigs.add(crusher);}}}}
   
   private void initGrinders(List<Jig> fjigs,List<MJig> mjigs){
     

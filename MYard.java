@@ -3,7 +3,6 @@ package org.fleen.maximilian;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fleen.geom_2D.DPoint;
 import org.fleen.geom_2D.DYard;
 
 /*
@@ -55,12 +54,50 @@ public class MYard extends MShape{
       y.add(p.dpolygon);
     return y;}
   
-  public boolean hasBadGeometry(){
-    for(MPolygon mp:mpolygons)
-    for(DPoint p:mp.dpolygon)
-      if(p==null)
-        return true;
-    return false;}
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * DETAIL SIZE
+   * smallest distance between component polygons
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  Double detailsize=null;
+  
+  public double getDetailSize(){
+    if(detailsize==null)initDetailSize();
+    return detailsize;}
+  
+  private void initDetailSize(){
+    double smallest=Double.MAX_VALUE,test;
+    for(MPolygon p0:mpolygons){
+      for(MPolygon p1:mpolygons){
+        if(p0!=p1){
+          test=p0.getDistance(p1);
+          if(test<smallest)
+            smallest=test;}}}
+    detailsize=smallest;}
+
+  /*
+   * ++++++++++++++++++++++++++++++++
+   * DISTORTION LEVEL
+   * the distortion level of this yard's most distorted component polygon 
+   * ++++++++++++++++++++++++++++++++
+   */
+  
+  Double distortionlevel=null;
+  
+  public double getDistortionLevel(){
+    if(distortionlevel==null)
+      initDistortionLevel();
+    return distortionlevel;}
+  
+  private void initDistortionLevel(){
+    double largest=Double.MIN_VALUE,test;
+    for(MPolygon p:mpolygons){
+      test=p.getDistortionLevel();
+      if(test>largest)
+        largest=test;}
+    distortionlevel=largest;}
   
   /*
    * ################################

@@ -27,10 +27,11 @@ public interface MJig extends Tagged{
    * Create 2..n new shapes using the target shape as param
    * Link the new shapes to the target treewise. Target is parent, new shapes are children. 
    * Return a reference to the new shapes
+   * If there is an MYard then it is at index 0
    * ################################
    */
   
-  List<MShape> createShapes(MShape target);
+  List<MShape> createAndLinkShapes(MShape target);
 
   /*
    * ################################
@@ -55,6 +56,9 @@ public interface MJig extends Tagged{
   
   double getDetailSizePreview(MShape target);
   
+  /*
+   * to what degree the 2d shape deviates from the ideal k shape
+   */
   double getDistortionLevelPreview(MShape target);
   
 }

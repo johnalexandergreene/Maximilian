@@ -2,9 +2,7 @@ package org.fleen.maximilian.jig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.fleen.forsythia.grammar.Jig;
 import org.fleen.geom_2D.DPoint;
@@ -16,7 +14,7 @@ import org.fleen.maximilian.MYard;
 /*
  * boil, split inner polygon, shrink children
  */
-public class MJig_Grinder implements MJig{
+public class MJig_Grinder extends MJig_Abstract{
   
   //param is forsythia jig
   public MJig_Grinder(Jig fjig){
@@ -33,7 +31,7 @@ public class MJig_Grinder implements MJig{
     BOILSPAN=0.02,
     CRUSHSPAN=0.02;
 
-  public List<MShape> createShapes(MShape target){
+  public List<MShape> createAndLinkShapes(MShape target){
     if(target.hasBadGeometry())return null;//DEBUG
     //
     List<MShape> newshapes=new ArrayList<MShape>();
