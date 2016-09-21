@@ -25,7 +25,16 @@ public class MJig_Crusher extends MJig_Abstract{
   public MJig_Crusher(Jig fjig,double outergap,double innergap){
     this.forsythiaoperator=fjig;
     this.outergap=outergap;
-    this.innergap=innergap;}
+    this.innergap=innergap;
+    setTags(TAG);}
+  
+  /*
+   * ################################
+   * TAG
+   * ################################
+   */
+  
+  private static final String TAG="crusher";
   
   /*
    * ################################
@@ -60,8 +69,7 @@ public class MJig_Crusher extends MJig_Abstract{
     //shrink the shards
     for(MPolygon shard:shards){
       Util.shrink(shard.dpolygon,innergap);
-      shard.addTags(Arrays.asList(new String[]{"egg"}));
-      shard.setParent(target);}
+      shard.addTags("egg");}
     //do the yard
     MYard yard=new MYard((MPolygon)target,shards,0,Arrays.asList(new String[]{"foam"}));
     //

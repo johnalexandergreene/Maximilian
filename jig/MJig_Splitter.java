@@ -1,6 +1,5 @@
 package org.fleen.maximilian.jig;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.fleen.forsythia.grammar.Jig;
@@ -21,7 +20,16 @@ public class MJig_Splitter extends MJig_Abstract{
    */
   
   public MJig_Splitter(Jig forsythiaoperator){
-    this.forsythiaoperator=forsythiaoperator;}
+    this.forsythiaoperator=forsythiaoperator;
+    setTags(TAG);}
+  
+  /*
+   * ################################
+   * TAG
+   * ################################
+   */
+  
+  private static final String TAG="splitter";
   
   /*
    * ################################
@@ -40,7 +48,7 @@ public class MJig_Splitter extends MJig_Abstract{
   public CreatedShapes createShapes(MShape target){
     List<MPolygon> shards=Util.split((MPolygon)target,forsythiaoperator);
     for(MShape shape:shards)
-      shape.addTags(Arrays.asList(new String[]{"shard"}));
+      shape.addTags("shard");
     return new CreatedShapes(shards);}
 
 }

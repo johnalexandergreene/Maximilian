@@ -105,7 +105,7 @@ public class MComposition implements Maximilian{
    * ################################
    */
   
-  public static final String[] ROOT_TAGS={"root"};
+  public static final String[] ROOT_METAGON_ACCQUIREMENT_TAG={"root"};
   MPolygon root;
   
   /*
@@ -118,7 +118,7 @@ public class MComposition implements Maximilian{
     root=rootpolygon;}
 
   public void initTree(){
-    initTree(ROOT_TAGS);}
+    initTree(ROOT_METAGON_ACCQUIREMENT_TAG);}
   
   /*
    * get the metagon with the specified tag/s and make a shape from that
@@ -143,7 +143,8 @@ public class MComposition implements Maximilian{
       m=notag.get(new Random().nextInt(notag.size()));
     }else{
       throw new IllegalArgumentException("this forsythia grammar appears to have no metagons in it");}
-    root=new MPolygon(m);}
+    root=new MPolygon(m);
+    root.addTags("egg");}
   
   /*
    * ++++++++++++++++++++++++++++++++

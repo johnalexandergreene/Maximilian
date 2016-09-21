@@ -59,6 +59,7 @@ public class Renderer002_fill implements Renderer{
     return c;}
   
   public BufferedImage render(){
+    colorbysig.clear();
     int 
       w=test.ui.panimage.getWidth(),
       h=test.ui.panimage.getHeight();

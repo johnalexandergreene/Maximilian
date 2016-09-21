@@ -30,7 +30,7 @@ public class Composer000 implements Composer{
     initJigServer();
     //
     try{
-      for(int i=0;i<4;i++)
+      for(int i=0;i<6;i++)
         cultivate(composition);
     }catch(Exception x){
       x.printStackTrace();}
@@ -56,7 +56,11 @@ public class Composer000 implements Composer{
     if(shape instanceof MYard){
       return null;}
     //split eggs; boil or crush shards
+    
+    System.out.println("shape = "+shape);
+    
     if(shape.hasTags("egg")){
+      System.out.println("getting splitter");
       jig=jigserver.getJig(shape,new String[]{"splitter"});
     }else{//shard
       int r=rnd.nextInt(4);
@@ -73,8 +77,8 @@ public class Composer000 implements Composer{
    */
 
   private static final double 
-    UNITGAP=0.04,
-    DETAILLIMIT=0.0001,
+    UNITGAP=0.03,
+    DETAILLIMIT=0.1,
     DISTORTIONLIMIT=100;
   
   MJigServer jigserver;

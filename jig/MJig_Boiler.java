@@ -30,7 +30,16 @@ public class MJig_Boiler extends MJig_Abstract{
    */
   
   MJig_Boiler(double boilgap){
-    this.boilgap=boilgap;}
+    this.boilgap=boilgap;
+    setTags(TAG);}
+  
+  /*
+   * ################################
+   * TAG
+   * ################################
+   */
+  
+  private static final String TAG="boiler";
   
   /*
    * ################################
@@ -55,10 +64,10 @@ public class MJig_Boiler extends MJig_Abstract{
     DPolygon eggdpolygon=(DPolygon)mptarget.dpolygon.clone();
     MPolygon egg=new MPolygon(eggdpolygon,eggmetagon,0,new ArrayList<String>());
     Util.shrink(eggdpolygon,boilgap);
-    egg.addTags(Arrays.asList(new String[]{"egg"}));
+    egg.addTags("egg");
     //create yard
     MYard yard=new MYard(Arrays.asList(new MPolygon[]{(MPolygon)target,egg}),0,new ArrayList<String>());
-    yard.addTags(Arrays.asList(new String[]{"donut"}));
+    yard.addTags("donut");
     //
     return new CreatedShapes(egg,yard);}
 

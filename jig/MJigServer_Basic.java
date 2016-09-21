@@ -130,8 +130,8 @@ public class MJigServer_Basic implements MJigServer{
    */
   
   private static final int 
-    BOILERGAPSMALL=1,
-    BOILERGAPLARGE=2,
+    BOILERGAPSMALL=2,
+    BOILERGAPLARGE=4,
     CRUSHERGAP0SMALL=1,
     CRUSHERGAP0LARGE=2,
     CRUSHERGAP1SMALL=1,

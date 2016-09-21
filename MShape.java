@@ -191,6 +191,6 @@ public abstract class MShape implements TreeNode,Serializable,Maximilian,Tagged{
    */
   
   public String toString(){
-    return getClass().getSimpleName()+"["+hashCode()+"]"+tagmanager;}
+    return "[ "+getClass().getSimpleName()+" : "+hashCode()+" : "+tagmanager.toString()+" ]";}
 
 }
